@@ -1,13 +1,18 @@
 import React from 'react';
 import Logo from '../logo/logo';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import filmProp from '../films/films.prop';
 
-function Review() {
+function Review({films}) {
+  const reviewedFilm = films[0];
+  const posterImageAlt = reviewedFilm.name + ' poster'; // eslint-disable-line prefer-template
+
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={reviewedFilm.backgroundImage} alt={reviewedFilm.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -18,7 +23,7 @@ function Review() {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">The Grand Budapest Hotel</a>
+                <a href="film-page.html" className="breadcrumbs__link">{reviewedFilm.name}</a>
               </li>
               <li className="breadcrumbs__item">
                 <Link className="breadcrumbs__link" to='/films/:id/review'>Add review</Link>
@@ -33,13 +38,13 @@ function Review() {
               </div>
             </li>
             <li className="user-block__item">
-              <Link className="user-block__link">Sign out</Link>
+              <Link className="user-block__link" to='/'>Sign out</Link>
             </li>
           </ul>
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+          <img src={reviewedFilm.posterImage} alt={posterImageAlt} width="218" height="327" />
         </div>
       </div>
 
@@ -53,7 +58,7 @@ function Review() {
               <input className="rating__input" id="star-9" type="radio" name="rating" value="9" />
               <label className="rating__label" htmlFor="star-9">Rating 9</label>
 
-              <input className="rating__input" id="star-8" type="radio" name="rating" value="8" checked />
+              <input className="rating__input" id="star-8" type="radio" name="rating" value="8" />
               <label className="rating__label" htmlFor="star-8">Rating 8</label>
 
               <input className="rating__input" id="star-7" type="radio" name="rating" value="7" />
@@ -92,5 +97,9 @@ function Review() {
     </section>
   );
 }
+
+Review.propTypes = {
+  films: PropTypes.arrayOf(PropTypes.shape(filmProp)).isRequired,
+};
 
 export default Review;

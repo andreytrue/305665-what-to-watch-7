@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function Player() {
+function Player({videoUrl}) {
   return (
     <div className="player">
-      <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+      <video videoUrl={videoUrl} className="player__video" poster="img/player-poster.jpg"></video>
 
       <button type="button" className="player__exit">Exit</button>
 
@@ -36,5 +37,9 @@ function Player() {
     </div>
   );
 }
+
+Player.propTypes = {
+  videoUrl: PropTypes.string.isRequired,
+};
 
 export default Player;

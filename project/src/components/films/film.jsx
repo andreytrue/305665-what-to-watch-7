@@ -2,6 +2,7 @@ import React from 'react';
 import Logo from '../logo/logo';
 import Footer from '../footer/footer';
 import filmProp from '../films/films.prop';
+import PropTypes from 'prop-types';
 
 function Film(props) {
   const {film} = props;
@@ -18,7 +19,7 @@ function Film(props) {
     released,
   } = film;
 
-  // const starringList = 'Starring: ' + starring.join(', ') + ' and other';
+  const starringList = 'Starring: ' + starring.join(', ') + ' and others'; // eslint-disable-line prefer-template
 
   return (
     <React.Fragment>
@@ -106,7 +107,7 @@ function Film(props) {
 
                 <p className="film-card__director"><strong>Director: {director}</strong></p>
 
-                <p className="film-card__starring"><strong>{starring}</strong></p>
+                <p className="film-card__starring"><strong>{starringList}</strong></p>
               </div>
             </div>
           </div>
@@ -163,7 +164,7 @@ function Film(props) {
 }
 
 Film.propTypes = {
-  film: filmProp,
+  film: PropTypes.shape(filmProp),
 };
 
 export default Film;
