@@ -3,9 +3,12 @@ import Logo from '../logo/logo';
 import Footer from '../footer/footer';
 import filmProp from '../films/films.prop';
 import PropTypes from 'prop-types';
+import {useParams} from 'react-router-dom';
 
-function Film(props) {
-  const {film} = props;
+function Film({films}) {
+  const { id } = useParams();
+  // eslint-disable-next-line
+  console.log(id);
 
   const {name,
     posterImage,
@@ -17,7 +20,7 @@ function Film(props) {
     starring,
     genre,
     released,
-  } = film;
+  } = films[id];
 
   const starringList = 'Starring: ' + starring.join(', ') + ' and others'; // eslint-disable-line prefer-template
 
@@ -164,7 +167,7 @@ function Film(props) {
 }
 
 Film.propTypes = {
-  film: PropTypes.shape(filmProp),
+  films: PropTypes.arrayOf(PropTypes.shape(filmProp)).isRequired,
 };
 
 export default Film;

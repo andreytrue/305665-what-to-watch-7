@@ -2,26 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FilmCard from '../film-card/film-card';
 import filmProp from '../films/films.prop';
-import {nanoid} from 'nanoid';
 
-class FilmsList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {selectedID: nanoid()};
-    this._selectFilmHandler = this._selectFilmHandler.bind(this);
-  }
+function FilmsList ({ films }){
+  // eslint-disable-next-line
+  const [activeFilm, setActiveFilm] = React.useState(-1);
 
-  render() {
-    return (
-      <div className="catalog__films-list">
-        {this.props.films.map((film) => <FilmCard film={film} key={film.id} mouseover={() => this._selectFilmHandler(film.id)} />)}
-      </div>
-    );
-  }
+  const handleOnMouseOver = React.useCallback((id) => {
+    setActiveFilm(id);
+  }, []);
 
-  _selectFilmHandler(currentFilm) {
-    this.setState({selectedID: currentFilm});
-  }
+  return (
+    <div className="catalog__films-list">
+      {films.map((film) => <FilmCard film={film} key={film.id} onMouseOver={handleOnMouseOver} />)}
+    </div>
+  );
 }
 
 FilmsList.propTypes = {
@@ -29,15 +23,3 @@ FilmsList.propTypes = {
 };
 
 export default FilmsList;
-
-// function FilmsList({films}) {
-//   return (
-//     <div className="catalog__films-list">
-//       {films.map((film) => <FilmCard film={film} key={film.id} />)}
-//     </div>
-//   );
-// }
-
-// FilmsList.propTypes = {
-//   films: PropTypes.arrayOf(PropTypes.shape(filmProp)).isRequired,
-// };

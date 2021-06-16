@@ -1,9 +1,6 @@
-// const TEST_VIDEO = 'https://download.blender.org/durian/trailer/sintel trailer-480p.mp4';
-import {nanoid} from 'nanoid';
-
 const films = [
   {
-    id: nanoid(),
+    id: 0,
     name: 'The Grand Budapest Hotel',
     posterImage: 'img/the-grand-budapest-hotel-poster.jpg',
     previewImage: 'img/the-grand-budapest-hotel.jpg',
@@ -22,7 +19,7 @@ const films = [
     isFavorite: false,
   },
   {
-    id: nanoid(),
+    id: 1,
     name: 'Moonrise Kingdom',
     posterImage: 'img/moonrise-kingdom-poster.jpg',
     previewImage: 'img/moonrise-kingdom.jpg',
@@ -41,7 +38,7 @@ const films = [
     isFavorite: false,
   },
   {
-    id: nanoid(),
+    id: 2,
     name: 'Pulp Fiction',
     posterImage: 'img/pulp-fiction-poster.jpg',
     previewImage: 'img/pulp-fiction.jpg',
@@ -60,7 +57,7 @@ const films = [
     isFavorite: true,
   },
   {
-    id: nanoid(),
+    id: 3,
     name: 'The Darjeeling Limited',
     posterImage: 'img/dardjeeling-limited-poster.jpg',
     previewImage: 'img/dardjeeling-limited.jpg',
@@ -79,7 +76,7 @@ const films = [
     isFavorite: true,
   },
   {
-    id: nanoid(),
+    id: 4,
     name: 'The Aviator',
     posterImage: 'img/aviator-poster.jpg',
     previewImage: 'img/aviator.jpg',
@@ -98,7 +95,7 @@ const films = [
     isFavorite: false,
   },
   {
-    id: nanoid(),
+    id: 5,
     name: 'The Revenant',
     posterImage: 'img/revenant-poster.jpg',
     previewImage: 'img/revenant.jpg',
@@ -117,7 +114,7 @@ const films = [
     isFavorite: false,
   },
   {
-    id: nanoid(),
+    id: 6,
     name: 'Johnny English',
     posterImage: 'img/johnny-english-poster.jpg',
     previewImage: 'img/johnny-english.jpg',
@@ -136,7 +133,7 @@ const films = [
     isFavorite: true,
   },
   {
-    id: nanoid(),
+    id: 7,
     name: 'Bohemian Rhapsody',
     posterImage: 'img/bohemian-rhapsody-poster.jpg',
     previewImage: 'img/bohemian-rhapsody.jpg',
