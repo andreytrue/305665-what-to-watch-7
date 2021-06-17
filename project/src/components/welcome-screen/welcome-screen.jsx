@@ -1,19 +1,20 @@
-import {nanoid} from 'nanoid';
 import React from 'react';
 import PropTypes from 'prop-types';
-import FilmCard from '../film-card/film-card';
+import FilmsList from '../films-list/films-list';
 import Logo from '../logo/logo';
 import Footer from '../footer/footer';
+import filmProp from '../films/films.prop';
 
-function WelcomeScreen({film}) {
+function WelcomeScreen({films}) {
 
-  const mockCardsIds = new Array(20).fill(1);
+  const mainFilm = films[0];
+  const posterImageAlt = mainFilm.name + ' poster'; // eslint-disable-line prefer-template
 
   return (
     <div className="page-content">
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={mainFilm.backgroundImage} alt={mainFilm.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -36,14 +37,14 @@ function WelcomeScreen({film}) {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={mainFilm.posterImage} alt={posterImageAlt} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{film.name}</h2>
+              <h2 className="film-card__title">{mainFilm.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{film.type}</span>
-                <span className="film-card__year">{film.year}</span>
+                <span className="film-card__genre">{mainFilm.genre}</span>
+                <span className="film-card__year">{mainFilm.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -101,9 +102,7 @@ function WelcomeScreen({film}) {
           </li>
         </ul>
 
-        <div className="catalog__films-list">
-          {mockCardsIds.map(() => <FilmCard key={nanoid()} />)}
-        </div>
+        <FilmsList films={films} />
 
         <div className="catalog__more">
           <button className="catalog__button" type="button">Show more</button>
@@ -116,11 +115,7 @@ function WelcomeScreen({film}) {
 }
 
 WelcomeScreen.propTypes = {
-  film: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
-  }),
+  films: PropTypes.arrayOf(PropTypes.shape(filmProp)).isRequired,
 };
 
 export default WelcomeScreen;
