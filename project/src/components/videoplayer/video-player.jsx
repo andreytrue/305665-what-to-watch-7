@@ -6,9 +6,15 @@ function VideoPlayer({film, src, isPlaying}) {
   const videoRef = useRef();
 
   useEffect(() => {
+    let timeout;
+
     if (isPlaying) {
-      setTimeout(() => videoRef.current.play(), 1000);
+      timeout = setTimeout(() => videoRef.current.play(), 1000);
+    } else {
+      videoRef.current.load();
     }
+
+    return () => clearTimeout(timeout);
   }, [isPlaying]);
 
   return (
