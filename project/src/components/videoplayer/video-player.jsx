@@ -8,10 +8,7 @@ function VideoPlayer({film, src, isPlaying}) {
   useEffect(() => {
     if (isPlaying) {
       setTimeout(() => videoRef.current.play(), 1000);
-      return;
     }
-
-    videoRef.current.pause();
   }, [isPlaying]);
 
   return (
@@ -34,7 +31,3 @@ VideoPlayer.propTypes = {
 };
 
 export default VideoPlayer;
-
-// setTimeout(
-//   () => videoRef.current.play(),
-//   1000);

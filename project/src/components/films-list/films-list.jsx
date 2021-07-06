@@ -18,7 +18,6 @@ function FilmsList ({ films }){
           film={film}
           key={film.id}
           onMouseOver={handleOnMouseOver}
-          isPlaying={film.id === activeFilm}
         />))}
     </div>
   );

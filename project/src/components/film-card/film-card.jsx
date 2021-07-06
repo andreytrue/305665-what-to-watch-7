@@ -1,24 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import filmProp from '../films/films.prop';
 import VideoPlayer from '../videoplayer/video-player';
 
-const src = 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4';
-
-function FilmCard({film, isPlaying, onMouseOver}) {
+function FilmCard({film, onMouseOver}) {
   // eslint-disable-next-line
   const location = '/films/' + film.id;
+  const [isPlaying, setIsPlaying] = useState(false);
 
   return (
-    <article onMouseOver={() => onMouseOver(film.id)} className="small-film-card catalog__films-card">
+    <article
+      className="small-film-card catalog__films-card"
+      onMouseOver={() => onMouseOver(film.id)}
+      onMouseEnter={() => setIsPlaying(true)}
+      onMouseLeave={() => setIsPlaying(false)}
+    >
       <div className="small-film-card__image">
-        <VideoPlayer
-          film={film}
-          key={film.id}
-          src={src}
-          isPlaying={isPlaying}
-        />
+        {!isPlaying ?
+          <img src={film.previewImage} alt={film.title} width="280" height="175" /> :
+          <VideoPlayer film={film} key={film.id} src={film.previewVideoLink} isPlaying={isPlaying}/>}
       </div>
       <h3 className="small-film-card__title">
         <Link className="small-film-card__link" to={location}>{film.name}</Link>
@@ -29,7 +30,6 @@ function FilmCard({film, isPlaying, onMouseOver}) {
 
 FilmCard.propTypes = {
   film: PropTypes.shape(filmProp).isRequired,
-  isPlaying: PropTypes.bool.isRequired,
   onMouseOver: PropTypes.func,
 };
 
