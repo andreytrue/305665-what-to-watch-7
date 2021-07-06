@@ -13,7 +13,13 @@ function FilmsList ({ films }){
 
   return (
     <div className="catalog__films-list">
-      {films.map((film) => <FilmCard film={film} key={film.id} onMouseOver={handleOnMouseOver} />)}
+      {films.map((film) => (
+        <FilmCard
+          film={film}
+          key={film.id}
+          onMouseOver={handleOnMouseOver}
+          isPlaying={film.id === activeFilm}
+        />))}
     </div>
   );
 }
