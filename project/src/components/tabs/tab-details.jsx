@@ -11,8 +11,6 @@ function TabDetails({film}) {
     released,
   } = film;
 
-  const duration = runTime + 'm'; // eslint-disable-line prefer-template
-
   return(
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">
@@ -31,7 +29,7 @@ function TabDetails({film}) {
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">{ duration }</span>
+          <span className="film-card__details-value">{ runTime }m</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>

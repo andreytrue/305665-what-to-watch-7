@@ -8,6 +8,14 @@ import TabReviews from './tab-reviews';
 function Tabs({film}) {
   const [isActiveTab, setActiveTab] = React.useState(0);
 
+  const tabsArray = Array(3).fill();
+
+  const TABS = {
+    0: 'Overview',
+    1: 'Details',
+    2: 'Reviews',
+  };
+
   const onClickHandler = (evt) => {
     setActiveTab(Number(evt.currentTarget.dataset.id));
     // eslint-disable-next-line
@@ -31,15 +39,12 @@ function Tabs({film}) {
     <div className="film-card__desc">
       <nav className="film-nav film-card__nav">
         <ul className="film-nav__list">
-          <li className={`film-nav__item ${isActiveTab === 0 ? 'film-nav__item--active' : ''}`} onClick={onClickHandler} data-id="0">
-            <span className="film-nav__link">Overview</span>
-          </li>
-          <li className={`film-nav__item ${isActiveTab === 1 ? 'film-nav__item--active' : ''}`}  onClick={onClickHandler} data-id="1">
-            <span className="film-nav__link">Details</span>
-          </li>
-          <li className={`film-nav__item ${isActiveTab === 2 ? 'film-nav__item--active' : ''}`}  onClick={onClickHandler} data-id="2">
-            <span className="film-nav__link">Reviews</span>
-          </li>
+          {tabsArray.map((activeTabClassName = 'film-nav__item--active', index) => (
+            <li className={`film-nav__item ${isActiveTab === index ? activeTabClassName : ''}`} onClick={onClickHandler} data-id={index} key={TABS[index]}>
+              <span className="film-nav__link">{TABS[index]}</span>
+            </li>
+          ),
+          )}
         </ul>
       </nav>
 
