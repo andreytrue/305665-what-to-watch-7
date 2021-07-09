@@ -88,7 +88,7 @@ function Film({films}) {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">{filteredFilms.length > 0 ? 'More like this' : 'No same films'}</h2>
 
-          <FilmsList films={filteredFilms.slice(0, 4)} />
+          <FilmsList films={filteredFilms.slice(0, 4)} genre={genre}/>
         </section>
 
         <Footer />

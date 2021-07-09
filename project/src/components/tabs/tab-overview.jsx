@@ -11,8 +11,6 @@ function TabOverview({film}) {
     director,
   } = film;
 
-  const starringList = 'Starring: ' + starring.join(', ') + ' and others'; // eslint-disable-line prefer-template
-
   return(
     <Fragment>
       <div className="film-rating">
@@ -28,7 +26,7 @@ function TabOverview({film}) {
 
         <p className="film-card__director"><strong>Director: {director}</strong></p>
 
-        <p className="film-card__starring"><strong>{starringList}</strong></p>
+        <p className="film-card__starring"><strong>Starring: { starring.join(', ') } and others</strong></p>
       </div>
     </Fragment>
   );

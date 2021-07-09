@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import filmProp from '../films/films.prop';
 import FilmsList from '../films-list/films-list';
 import Logo from '../logo/logo';
 import Footer from '../footer/footer';
-import filmProp from '../films/films.prop';
+import Genres from '../genres/genres';
+import { connect } from 'react-redux';
+import { ActionCreator } from '../../store/action';
 
-function WelcomeScreen({films}) {
+function WelcomeScreen(props) {
+
+  const {films, genre, onGenreClick} = props;
 
   const mainFilm = films[0];
   const posterImageAlt = mainFilm.name + ' poster'; // eslint-disable-line prefer-template
@@ -69,40 +74,9 @@ function WelcomeScreen({films}) {
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <ul className="catalog__genres-list">
-          <li className="catalog__genres-item catalog__genres-item--active">
-            <a href="_blank" className="catalog__genres-link">All genres</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="_blank" className="catalog__genres-link">Comedies</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="_blank" className="catalog__genres-link">Crime</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="_blank" className="catalog__genres-link">Documentary</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="_blank" className="catalog__genres-link">Dramas</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="_blank" className="catalog__genres-link">Horror</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="_blank" className="catalog__genres-link">Kids & Family</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="_blank" className="catalog__genres-link">Romance</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="_blank" className="catalog__genres-link">Sci-Fi</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="_blank" className="catalog__genres-link">Thrillers</a>
-          </li>
-        </ul>
+        <Genres films={films} genre={genre} onGenreClick={onGenreClick} />
 
-        <FilmsList films={films} />
+        <FilmsList films={films} genre={props.genre} />
 
         <div className="catalog__more">
           <button className="catalog__button" type="button">Show more</button>
@@ -116,6 +90,22 @@ function WelcomeScreen({films}) {
 
 WelcomeScreen.propTypes = {
   films: PropTypes.arrayOf(PropTypes.shape(filmProp)).isRequired,
+  genre: PropTypes.string.isRequired,
+  onGenreClick: PropTypes.func.isRequired,
 };
 
-export default WelcomeScreen;
+const mapStateToProps = (state) => ({
+  genre: state.genre,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onGenreClick(genre) {
+    dispatch(ActionCreator.genreChange(genre));
+  },
+  onGenreReset() {
+    dispatch(ActionCreator.resetGenre());
+  },
+});
+
+export {WelcomeScreen};
+export default connect(mapStateToProps, mapDispatchToProps)(WelcomeScreen);
