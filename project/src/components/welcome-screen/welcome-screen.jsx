@@ -21,7 +21,7 @@ function WelcomeScreen(props) {
     return () => {
       onFilmsReset();
     };
-  }, []);
+  }, [onFilmsReset]);
 
   return (
     <div className="page-content">

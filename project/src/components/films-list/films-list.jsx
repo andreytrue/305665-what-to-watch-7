@@ -8,28 +8,23 @@ function FilmsList ({ films, genre, filmsListAmount }){
   // eslint-disable-next-line
   const [activeFilm, setActiveFilm] = React.useState(-1);
 
-  const filteredFilmsList = (filmsList) => {
+  const filteredFilmsList = (list) => {
     if (genre === ALL_GENRES) {
-      return filmsList;
+      return list;
     }
 
-    return filmsList.filter((film) => film.genre === genre);
+    return list.filter((film) => film.genre === genre);
   };
 
   const handleOnMouseOver = React.useCallback((id) => {
     setActiveFilm(id);
   }, []);
 
-  const finalFilmsList = (filmsList) => {
-    filmsList = filteredFilmsList(filmsList);
-    filmsList = filmsList.slice(0, filmsListAmount);
-
-    return filmsList;
-  };
+  const filmsList = (list) => filteredFilmsList(list).slice(0, filmsListAmount);
 
   return (
     <div className="catalog__films-list">
-      {finalFilmsList(films).map((film) => (
+      {filmsList(films).map((film) => (
         <FilmCard
           film={film}
           key={film.id}
