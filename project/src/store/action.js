@@ -1,6 +1,8 @@
 export const ActionType = {
   GENRE_CHANGE: 'genres/genreChange',
   RESET_GENRE: 'genres/genreReset',
+  ADD_FILMS: 'films/addFilms',
+  RESET_FILMS: 'films/resetFilms',
 };
 
 export const ActionCreator = {
@@ -10,5 +12,12 @@ export const ActionCreator = {
   }),
   resetGenre: () => ({
     type: ActionType.RESET_GENRE,
+  }),
+  addFilms: (filmsListAmount) => ({
+    type: ActionType.ADD_FILMS,
+    payload: filmsListAmount,
+  }),
+  resetFilms: () => ({
+    type: ActionType.RESET_FILMS,
   }),
 };

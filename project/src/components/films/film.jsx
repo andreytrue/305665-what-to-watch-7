@@ -6,6 +6,9 @@ import Footer from '../footer/footer';
 import filmProp from '../films/films.prop';
 import Tabs from '../tabs/tabs';
 import FilmsList from '../films-list/films-list';
+import {FILMS_RECOMMENDATION_MAX} from '../const/const';
+
+const filmsReccomendationList = (filmsList) => filmsList.slice(0, FILMS_RECOMMENDATION_MAX);
 
 function Film({films}) {
   const { id } = useParams();
@@ -88,7 +91,7 @@ function Film({films}) {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">{filteredFilms.length > 0 ? 'More like this' : 'No same films'}</h2>
 
-          <FilmsList films={filteredFilms.slice(0, 4)} genre={genre}/>
+          <FilmsList films={filmsReccomendationList(filteredFilms)} genre={genre}/>
         </section>
 
         <Footer />
