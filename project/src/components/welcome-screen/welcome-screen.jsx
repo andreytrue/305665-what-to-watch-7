@@ -1,19 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import filmProp from '../films/films.prop';
 import FilmsList from '../films-list/films-list';
 import Logo from '../logo/logo';
 import Footer from '../footer/footer';
 import Genres from '../genres/genres';
+import ShowMore from '../show-more/show-more';
 import { connect } from 'react-redux';
 import { ActionCreator } from '../../store/action';
 
 function WelcomeScreen(props) {
 
-  const {films, genre, onGenreClick} = props;
+  const {films, genre, filmsListAmount, onShowMoreClick, onGenreClick, onFilmsReset} = props;
 
   const mainFilm = films[0];
   const posterImageAlt = mainFilm.name + ' poster'; // eslint-disable-line prefer-template
+
+  // eslint-disable-next-line
+  useEffect(() => {
+    return () => {
+      onFilmsReset();
+    };
+  }, []);
 
   return (
     <div className="page-content">
@@ -76,11 +84,9 @@ function WelcomeScreen(props) {
 
         <Genres films={films} genre={genre} onGenreClick={onGenreClick} />
 
-        <FilmsList films={films} genre={props.genre} />
+        <FilmsList films={films} genre={props.genre} filmsListAmount={filmsListAmount} />
 
-        <div className="catalog__more">
-          <button className="catalog__button" type="button">Show more</button>
-        </div>
+        {films.length > filmsListAmount ? <ShowMore filmsListAmount={filmsListAmount} onShowMoreClick={onShowMoreClick} /> : ''}
       </section>
 
       <Footer />
@@ -91,11 +97,15 @@ function WelcomeScreen(props) {
 WelcomeScreen.propTypes = {
   films: PropTypes.arrayOf(PropTypes.shape(filmProp)).isRequired,
   genre: PropTypes.string.isRequired,
+  filmsListAmount: PropTypes.number.isRequired,
   onGenreClick: PropTypes.func.isRequired,
+  onShowMoreClick: PropTypes.func.isRequired,
+  onFilmsReset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   genre: state.genre,
+  filmsListAmount: state.filmsListAmount,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -104,6 +114,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onGenreReset() {
     dispatch(ActionCreator.resetGenre());
+  },
+  onShowMoreClick(filmsListAmount) {
+    dispatch(ActionCreator.addFilms(filmsListAmount));
+  },
+  onFilmsReset() {
+    dispatch(ActionCreator.resetFilms());
   },
 });
 
