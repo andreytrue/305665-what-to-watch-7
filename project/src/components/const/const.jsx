@@ -1,7 +1,5 @@
-const ALL_GENRES = 'All genres';
+export const ALL_GENRES = 'All genres';
 
-const FILMS_RECOMMENDATION_MAX = 4;
+export const FILMS_RECOMMENDATION_MAX = 4;
 
-const CARDS_SHOWING_AMOUNT = 8;
-
-export {ALL_GENRES, FILMS_RECOMMENDATION_MAX, CARDS_SHOWING_AMOUNT};
+export const CARDS_SHOWING_AMOUNT = 8;

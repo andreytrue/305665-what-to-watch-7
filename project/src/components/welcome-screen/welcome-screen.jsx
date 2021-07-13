@@ -104,6 +104,7 @@ WelcomeScreen.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  films: state.films,
   genre: state.genre,
   filmsListAmount: state.filmsListAmount,
 });

@@ -39,7 +39,7 @@ function MyList({films}) {
 }
 
 MyList.propTypes = {
-  films: PropTypes.arrayOf(PropTypes.shape(filmProp)).isRequired,
+  films: PropTypes.arrayOf(PropTypes.shape(filmProp)),
 };
 
 export default MyList;
