@@ -18,8 +18,6 @@ function Tabs({film}) {
 
   const onClickHandler = (evt) => {
     setActiveTab(Number(evt.currentTarget.dataset.id));
-    // eslint-disable-next-line
-    console.log(evt.currentTarget.dataset.id);
   };
 
   const activeTabHandler = () => {
