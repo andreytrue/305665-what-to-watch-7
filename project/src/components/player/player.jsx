@@ -39,7 +39,7 @@ function Player({videoUrl}) {
 }
 
 Player.propTypes = {
-  videoUrl: PropTypes.string.isRequired,
+  videoUrl: PropTypes.string,
 };
 
 export default Player;

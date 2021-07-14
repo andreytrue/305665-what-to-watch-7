@@ -1,14 +1,15 @@
 import { ActionType } from './action';
-import films from '../mocks/films';
 import { ALL_GENRES, CARDS_SHOWING_AMOUNT } from '../components/const/const';
+import { FilmsAdapter } from '../components/src/adapter';
 
 const firstGenre = ALL_GENRES;
 const filmsListAmount = CARDS_SHOWING_AMOUNT;
 
 const initialState = {
   genre: firstGenre,
-  films: films,
+  films: [],
   filmsListAmount: filmsListAmount,
+  isDataLoaded: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -32,6 +33,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         filmsListAmount: CARDS_SHOWING_AMOUNT,
+      };
+    case ActionType.LOAD_FILMS:
+      return {
+        ...state,
+        films: FilmsAdapter(action.payload),
+        isDataLoaded: true,
       };
     default:
       return state;

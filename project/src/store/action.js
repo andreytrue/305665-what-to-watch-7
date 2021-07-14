@@ -3,6 +3,7 @@ export const ActionType = {
   RESET_GENRE: 'genres/genreReset',
   ADD_FILMS: 'films/addFilms',
   RESET_FILMS: 'films/resetFilms',
+  LOAD_FILMS: 'load/loadFilms',
 };
 
 export const ActionCreator = {
@@ -19,5 +20,9 @@ export const ActionCreator = {
   }),
   resetFilms: () => ({
     type: ActionType.RESET_FILMS,
+  }),
+  loadFilms: (films) => ({
+    type: ActionType.LOAD_FILMS,
+    payload: films,
   }),
 };

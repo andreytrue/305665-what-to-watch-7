@@ -101,7 +101,7 @@ function Film({films}) {
 }
 
 Film.propTypes = {
-  films: PropTypes.arrayOf(PropTypes.shape(filmProp)).isRequired,
+  films: PropTypes.arrayOf(PropTypes.shape(filmProp)),
 };
 
 export default Film;
