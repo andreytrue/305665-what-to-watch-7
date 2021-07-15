@@ -6,7 +6,7 @@ import VideoPlayer from '../videoplayer/video-player';
 
 function FilmCard({film, onMouseOver}) {
   // eslint-disable-next-line
-  const location = '/films/' + (film.id - 1);
+  const location = '/films/' + (film.id);
   const [isPlaying, setIsPlaying] = useState(false);
 
   return (
