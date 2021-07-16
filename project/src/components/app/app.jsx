@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route, BrowserRouter} from 'react-router-dom';
+import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import filmProp from '../films/films.prop';
 import { connect } from 'react-redux';
@@ -12,19 +12,22 @@ import Film from '../films/film';
 import Player from '../player/player';
 import Review from '../review/review';
 import LoadingScreen from '../loading-screen/loading-screen';
+import { PrivateRoute } from '../private-route/private-route';
 import {AppRoute} from '../src/const';
+import { isCheckedAuth } from '../src/common';
+import browserHistory from '../../browser-history';
 
 function App(props) {
-  const {films, isDataLoaded} = props;
+  const {authorizationStatus, films, isDataLoaded} = props;
 
-  if (!isDataLoaded) {
+  if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
     return (
       <LoadingScreen />
     );
   }
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={ browserHistory }>
       <Switch>
         <Route exact path={AppRoute.MAIN}>
           <WelcomeScreen />
@@ -32,15 +35,21 @@ function App(props) {
         <Route exact path={AppRoute.LOGIN}>
           <Login />
         </Route>
-        <Route exact path={AppRoute.MYLIST}>
-          <MyList />
-        </Route>
+        <PrivateRoute
+          exact
+          path={AppRoute.MYLIST}
+          render={() => <MyList />}
+        >
+        </PrivateRoute>
         <Route exact path={AppRoute.FILM}>
           <Film films={films} />
         </Route>
-        <Route exact path={AppRoute.REVIEW}>
-          <Review />
-        </Route>
+        <PrivateRoute
+          exact
+          path={AppRoute.REVIEW}
+          render={() => <Review />}
+        >
+        </PrivateRoute>
         <Route exact path={AppRoute.PLAYER}>
           <Player />
         </Route>
@@ -53,11 +62,13 @@ function App(props) {
 }
 
 App.propTypes = {
+  authorizationStatus: PropTypes.string.isRequired,
   films: PropTypes.arrayOf(PropTypes.shape(filmProp)).isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  authorizationStatus: state.authorizationStatus,
   films: state.films,
   isDataLoaded: state.isDataLoaded,
 });

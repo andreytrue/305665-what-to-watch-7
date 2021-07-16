@@ -1,6 +1,7 @@
 import { ActionType } from './action';
 import { ALL_GENRES, CARDS_SHOWING_AMOUNT } from '../components/const/const';
 import { FilmsAdapter } from '../components/src/adapter';
+import { AuthorizationStatus } from '../components/src/const';
 
 const firstGenre = ALL_GENRES;
 const filmsListAmount = CARDS_SHOWING_AMOUNT;
@@ -10,6 +11,7 @@ const initialState = {
   films: [],
   filmsListAmount: filmsListAmount,
   isDataLoaded: false,
+  authorizationStatus: AuthorizationStatus.UNKNOWN,
 };
 
 const reducer = (state = initialState, action) => {
@@ -39,6 +41,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         films: FilmsAdapter(action.payload),
         isDataLoaded: true,
+      };
+    case ActionType.REQUIRED_AUTHORIZATION:
+      return {
+        ...state,
+        authorizationStatus: action.payload,
+      };
+    case ActionType.LOGOUT:
+      return {
+        ...state,
+        authorizationStatus: AuthorizationStatus.NO_AUTH,
       };
     default:
       return state;

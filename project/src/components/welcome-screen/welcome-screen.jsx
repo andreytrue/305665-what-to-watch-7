@@ -2,16 +2,19 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import filmProp from '../films/films.prop';
 import FilmsList from '../films-list/films-list';
-import Logo from '../logo/logo';
 import Footer from '../footer/footer';
 import Genres from '../genres/genres';
 import ShowMore from '../show-more/show-more';
 import { connect } from 'react-redux';
 import { ActionCreator } from '../../store/action';
 
+import GuestHeader from '../headers/guest-header';
+import UserHeader from '../headers/user-header';
+import { userIsAuth } from '../src/common';
+
 function WelcomeScreen(props) {
 
-  const {films, genre, filmsListAmount, onShowMoreClick, onGenreClick, onFilmsReset} = props;
+  const {authorizationStatus, films, genre, filmsListAmount, onShowMoreClick, onGenreClick, onFilmsReset} = props;
 
   const mainFilm = films[0];
   const posterImageAlt = mainFilm.name + ' poster'; // eslint-disable-line prefer-template
@@ -32,20 +35,9 @@ function WelcomeScreen(props) {
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <header className="page-header film-card__head">
-          <Logo />
-
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link" href="_blank">Sign out</a>
-            </li>
-          </ul>
-        </header>
+        {userIsAuth(authorizationStatus)
+          ? <UserHeader />
+          : <GuestHeader />}
 
         <div className="film-card__wrap">
           <div className="film-card__info">
@@ -101,12 +93,14 @@ WelcomeScreen.propTypes = {
   onGenreClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired,
   onFilmsReset: PropTypes.func.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   films: state.films,
   genre: state.genre,
   filmsListAmount: state.filmsListAmount,
+  authorizationStatus: state.authorizationStatus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
