@@ -1,19 +1,19 @@
 import React, {useRef} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { login } from '../../store/api-actions';
 
 import Logo from '../logo/logo';
 import Footer from '../footer/footer';
+import { login } from '../../store/api-actions';
 
-function Login({onSubmit}) {
+function Login({onSubmitLogin}) {
   const loginRef = useRef();
   const passwordRef = useRef();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    onSubmit({
+    onSubmitLogin({
       login: loginRef.current.value,
       password: passwordRef.current.value,
     });
@@ -69,7 +69,7 @@ function Login({onSubmit}) {
 }
 
 Login.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  onSubmitLogin: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -77,7 +77,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onSubmit(authData) {
+  onSubmitLogin(authData) {
     dispatch(login(authData));
   },
 });

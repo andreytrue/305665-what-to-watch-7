@@ -1,7 +1,8 @@
 import { ActionType } from './action';
 import { ALL_GENRES, CARDS_SHOWING_AMOUNT } from '../components/const/const';
-import { FilmsAdapter } from '../components/src/adapter';
+import { FilmsAdapter, selectedFilmAdapter } from '../components/src/adapter';
 import { AuthorizationStatus } from '../components/src/const';
+import { login } from './api-actions';
 
 const firstGenre = ALL_GENRES;
 const filmsListAmount = CARDS_SHOWING_AMOUNT;
@@ -12,6 +13,11 @@ const initialState = {
   filmsListAmount: filmsListAmount,
   isDataLoaded: false,
   authorizationStatus: AuthorizationStatus.UNKNOWN,
+  selectedFilm: [],
+  isSelectedFilmLoaded: false,
+  similarFilms: [],
+  isReviewLoaded: false,
+  reviews: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -51,6 +57,28 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         authorizationStatus: AuthorizationStatus.NO_AUTH,
+      };
+    case ActionType.LOGIN:
+      login(action.payload);
+      return {
+        ...state,
+      };
+    case ActionType.LOAD_SELECTED_FILM:
+      return {
+        ...state,
+        selectedFilm: selectedFilmAdapter(action.payload),
+        isSelectedFilmLoaded: true,
+      };
+    case ActionType.LOAD_SIMILAR_FILMS:
+      return {
+        ...state,
+        similarFilms: FilmsAdapter(action.payload),
+      };
+    case ActionType.LOAD_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload,
+        isReviewLoaded: true,
       };
     default:
       return state;

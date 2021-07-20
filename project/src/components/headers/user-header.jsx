@@ -1,7 +1,16 @@
 import React from 'react';
-import Logo from '../logo/logo';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-function UserHeader() {
+import Logo from '../logo/logo';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../src/const';
+import { ActionCreator } from '../../store/action';
+
+function UserHeader(props) {
+
+  const { onSignOutClick } = props;
+
   return (
     <header className="page-header film-card__head">
       <Logo />
@@ -13,11 +22,28 @@ function UserHeader() {
           </div>
         </li>
         <li className="user-block__item">
-          <a className="user-block__link" href="_blank">Sign out</a>
+          <Link
+            className="user-block__link"
+            to={AppRoute.MAIN}
+            onClick={ onSignOutClick }
+          >
+            Sign out
+          </Link>
         </li>
       </ul>
     </header>
   );
 }
 
-export default UserHeader;
+UserHeader.propTypes = {
+  onSignOutClick: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  onSignOutClick() {
+    dispatch(ActionCreator.logout());
+  },
+});
+
+export {UserHeader};
+export default connect(null, mapDispatchToProps)(UserHeader);

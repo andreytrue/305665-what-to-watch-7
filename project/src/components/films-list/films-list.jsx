@@ -36,7 +36,7 @@ function FilmsList ({ films, genre, filmsListAmount }){
 
 FilmsList.propTypes = {
   films: PropTypes.arrayOf(PropTypes.shape(filmProp)).isRequired,
-  genre: PropTypes.string.isRequired,
+  genre: PropTypes.string,
   filmsListAmount: PropTypes.number,
 };
 

@@ -1,28 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {useParams} from 'react-router-dom';
-import Logo from '../logo/logo';
+import {useParams, Link} from 'react-router-dom';
 import Footer from '../footer/footer';
-import filmProp from '../films/films.prop';
 import Tabs from '../tabs/tabs';
+import filmProp from './films.prop';
+import reviewsProp from '../review/reviews.prop';
 import FilmsList from '../films-list/films-list';
 import {FILMS_RECOMMENDATION_MAX} from '../const/const';
 
-const filmsReccomendationList = (filmsList) => filmsList.slice(0, FILMS_RECOMMENDATION_MAX);
+import { connect } from 'react-redux';
+import GuestHeader from '../headers/guest-header';
+import UserHeader from '../headers/user-header';
+import { userIsAuth } from '../src/common';
+import { fetchReviews, fetchSelectedFilm, fetchSimilarFilms } from '../../store/api-actions';
+import LoadingScreen from '../loading-screen/loading-screen';
 
-function Film({films}) {
-  const { id } = useParams();
+function Film({ authorizationStatus, selectedFilm, getSelectedFilm, isSelectedFilmLoaded, similarFilms, getSimilarFilms, reviews, getReviews, isReviewLoaded }) {
+  const {id} = useParams();
 
-  const film = films[id];
+  useEffect(() => {
+    getSelectedFilm(id);
+    getSimilarFilms(id);
+    getReviews(id);
+  }, [getSelectedFilm, getSimilarFilms, getReviews, id]);
 
   const {name,
     posterImage,
     backgroundImage,
     genre,
     released,
-  } = film;
+  } = selectedFilm;
 
-  const filteredFilms = films.filter((card) => card.genre === genre && card.name !== name);
+  if (!isSelectedFilmLoaded && !isReviewLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
+  const recommendedFilms = similarFilms.slice(0, FILMS_RECOMMENDATION_MAX);
 
   return (
     <React.Fragment>
@@ -34,20 +49,9 @@ function Film({films}) {
 
           <h1 className="visually-hidden">WTW</h1>
 
-          <header className="page-header film-card__head">
-            <Logo />
-
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link" href="/">Sign out</a>
-              </li>
-            </ul>
-          </header>
+          {userIsAuth(authorizationStatus)
+            ? <UserHeader />
+            : <GuestHeader />}
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
@@ -70,7 +74,9 @@ function Film({films}) {
                   </svg>
                   <span>My list</span>
                 </button>
-                <a href="add-review.html" className="btn film-card__button">Add review</a>
+                {userIsAuth(authorizationStatus)
+                  ? <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>
+                  : ''}
               </div>
             </div>
           </div>
@@ -82,16 +88,17 @@ function Film({films}) {
               <img src={posterImage} alt="poster" width="218" height="327" />
             </div>
 
-            <Tabs film={film} />
+            {isSelectedFilmLoaded && isReviewLoaded
+              ? <Tabs film={selectedFilm} reviews={ reviews }/>
+              : ''}
           </div>
         </div>
       </section>
 
       <div className="page-content">
         <section className="catalog catalog--like-this">
-          <h2 className="catalog__title">{filteredFilms.length > 0 ? 'More like this' : 'No same films'}</h2>
-
-          <FilmsList films={filmsReccomendationList(filteredFilms)} genre={genre}/>
+          <h2 className="catalog__title">More like this</h2>
+          <FilmsList films={recommendedFilms} genre={genre}/>
         </section>
 
         <Footer />
@@ -101,7 +108,37 @@ function Film({films}) {
 }
 
 Film.propTypes = {
-  films: PropTypes.arrayOf(PropTypes.shape(filmProp)),
+  authorizationStatus: PropTypes.string.isRequired,
+  selectedFilm: PropTypes.arrayOf(PropTypes.shape(filmProp)).isRequired,
+  similarFilms: PropTypes.arrayOf(PropTypes.shape(filmProp)).isRequired,
+  getSelectedFilm: PropTypes.func.isRequired,
+  isSelectedFilmLoaded: PropTypes.bool.isRequired,
+  getSimilarFilms: PropTypes.func.isRequired,
+  reviews: PropTypes.arrayOf(PropTypes.shape(reviewsProp)).isRequired,
+  getReviews: PropTypes.func.isRequired,
+  isReviewLoaded: PropTypes.bool.isRequired,
 };
 
-export default Film;
+const mapStateToProps = (state) => ({
+  authorizationStatus: state.authorizationStatus,
+  isSelectedFilmLoaded: state.isSelectedFilmLoaded,
+  selectedFilm: state.selectedFilm,
+  similarFilms: state.similarFilms,
+  reviews: state.reviews,
+  isReviewLoaded: state.isReviewLoaded,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getSelectedFilm(id) {
+    dispatch(fetchSelectedFilm(id));
+  },
+  getSimilarFilms(id) {
+    dispatch(fetchSimilarFilms(id));
+  },
+  getReviews(id) {
+    dispatch(fetchReviews(id));
+  },
+});
+
+export {Film};
+export default connect(mapStateToProps, mapDispatchToProps)(Film);
