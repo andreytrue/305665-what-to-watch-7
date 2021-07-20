@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import filmProp from '../films/films.prop';
 import AddReview from '../add-review/add-review';
 
-function Review({films}) {
-  const reviewedFilm = films[0];
+function Review({selectedFilm}) {
+  const reviewedFilm = selectedFilm;
   const posterImageAlt = reviewedFilm.name + ' poster'; // eslint-disable-line prefer-template
 
   return (
@@ -56,7 +56,7 @@ function Review({films}) {
 }
 
 Review.propTypes = {
-  films: PropTypes.arrayOf(PropTypes.shape(filmProp)),
+  selectedFilm: PropTypes.shape(filmProp),
 };
 
 export default Review;

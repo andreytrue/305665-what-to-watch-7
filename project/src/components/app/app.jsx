@@ -1,7 +1,6 @@
 import React from 'react';
 import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import filmProp from '../films/films.prop';
 import { connect } from 'react-redux';
 
 import WelcomeScreen from '../welcome-screen/welcome-screen';
@@ -9,6 +8,7 @@ import Login from '../login/login';
 import MyList from '../my-list/my-list';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Film from '../films/film';
+import filmProp from '../films/films.prop';
 import Player from '../player/player';
 import Review from '../review/review';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -18,7 +18,7 @@ import { isCheckedAuth } from '../src/common';
 import browserHistory from '../../browser-history';
 
 function App(props) {
-  const {authorizationStatus, films, isDataLoaded} = props;
+  const {authorizationStatus, isDataLoaded, selectedFilm} = props;
 
   if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
     return (
@@ -42,12 +42,13 @@ function App(props) {
         >
         </PrivateRoute>
         <Route exact path={AppRoute.FILM}>
-          <Film films={films} />
+          <Film authorizationStatus={authorizationStatus} />
         </Route>
         <PrivateRoute
           exact
           path={AppRoute.REVIEW}
-          render={() => <Review />}
+          authorizationStatus={authorizationStatus}
+          render={() => <Review selectedFilm={selectedFilm} />}
         >
         </PrivateRoute>
         <Route exact path={AppRoute.PLAYER}>
@@ -63,13 +64,13 @@ function App(props) {
 
 App.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
-  films: PropTypes.arrayOf(PropTypes.shape(filmProp)).isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
+  selectedFilm: PropTypes.shape(filmProp),
 };
 
 const mapStateToProps = (state) => ({
   authorizationStatus: state.authorizationStatus,
-  films: state.films,
+  selectedFilm: state.selectedFilm,
   isDataLoaded: state.isDataLoaded,
 });
 

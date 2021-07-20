@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import filmProp from '../films/films.prop';
+import reviewsProp from '../review/reviews.prop';
 import TabOverview from './tab-overview';
 import TabDetails from './tab-details';
 import TabReviews from './tab-reviews';
 
-function Tabs({film}) {
+function Tabs({film, reviews}) {
   const [isActiveTab, setActiveTab] = React.useState(0);
 
   const tabsArray = Array(3).fill();
@@ -27,7 +28,7 @@ function Tabs({film}) {
       case 1:
         return <TabDetails film={film} />;
       case 2:
-        return <TabReviews film={film} />;
+        return <TabReviews film={film} reviews={reviews} />;
       default:
         return 'Error';
     }
@@ -53,6 +54,7 @@ function Tabs({film}) {
 
 Tabs.propTypes = {
   film: PropTypes.shape(filmProp).isRequired,
+  reviews: PropTypes.arrayOf(PropTypes.shape(reviewsProp)).isRequired,
 };
 
 export default Tabs;

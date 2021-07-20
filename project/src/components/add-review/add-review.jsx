@@ -1,60 +1,84 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 
-function AddReview() {
+import { connect } from 'react-redux';
+import { reviewFilm } from '../../store/api-actions';
+
+function AddReview({ authorizationStatus, onSubmitReview }) {
+  const {id} = useParams();
+
+  const commentRef = useRef();
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+
+    onSubmitReview({
+      rating: Number(fieldChange),
+      comment: commentRef.current.value ?? '',
+    }, id);
+  };
+
   // eslint-disable-next-line
-  const [fieldChange, setFieldChange] = React.useState(-1);
+  const [fieldChange, setFieldChange] = React.useState(5);
 
   const handleFieldChange = React.useCallback((evt) => {
     setFieldChange(evt.target.value);
   }, []);
 
+  const makeArray = () => {
+    const result = [];
+
+    for (let i = 10; i > 0; i--) {
+      result.push(i);
+    }
+
+    return result;
+  };
+
+  const starsArray = makeArray();
+
   return (
     <div className="add-review">
-      <htmlForm action="#" className="add-review__htmlForm">
+      <form action="#" className="add-review__htmlForm" >
         <div className="rating">
           <div className="rating__stars">
-            <input className="rating__input" id="star-10" type="radio" name="rating" value="10" />
-            <label className="rating__label" htmlFor="star-10">Rating 10</label>
-
-            <input className="rating__input" id="star-9" type="radio" name="rating" value="9" />
-            <label className="rating__label" htmlFor="star-9">Rating 9</label>
-
-            <input className="rating__input" id="star-8" type="radio" name="rating" value="8" checked />
-            <label className="rating__label" htmlFor="star-8">Rating 8</label>
-
-            <input className="rating__input" id="star-7" type="radio" name="rating" value="7" />
-            <label className="rating__label" htmlFor="star-7">Rating 7</label>
-
-            <input className="rating__input" id="star-6" type="radio" name="rating" value="6" />
-            <label className="rating__label" htmlFor="star-6">Rating 6</label>
-
-            <input className="rating__input" id="star-5" type="radio" name="rating" value="5" />
-            <label className="rating__label" htmlFor="star-5">Rating 5</label>
-
-            <input className="rating__input" id="star-4" type="radio" name="rating" value="4" />
-            <label className="rating__label" htmlFor="star-4">Rating 4</label>
-
-            <input className="rating__input" id="star-3" type="radio" name="rating" value="3" />
-            <label className="rating__label" htmlFor="star-3">Rating 3</label>
-
-            <input className="rating__input" id="star-2" type="radio" name="rating" value="2" />
-            <label className="rating__label" htmlFor="star-2">Rating 2</label>
-
-            <input className="rating__input" id="star-1" type="radio" name="rating" value="1" />
-            <label className="rating__label" htmlFor="star-1">Rating 1</label>
+            {starsArray.map((item) => (
+              <React.Fragment key={item}>
+                <input className="rating__input" id={`star-${item}`} type="radio" name="rating" value={item} onClick={handleFieldChange} />
+                <label className="rating__label" htmlFor={`star-${item}`}>Rating {item}</label>
+              </React.Fragment>
+            ),
+            )}
           </div>
         </div>
 
         <div className="add-review__text">
-          <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" onChange={handleFieldChange}></textarea>
+          <textarea ref={ commentRef } className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" ></textarea>
           <div className="add-review__submit">
-            <button className="add-review__btn" type="submit">Post</button>
+            <button className="add-review__btn" type="submit" onClick={ handleSubmit }>Post</button>
           </div>
 
         </div>
-      </htmlForm>
+      </form>
     </div>
   );
 }
 
-export default AddReview;
+AddReview.propTypes = {
+  authorizationStatus: PropTypes.string.isRequired,
+  onSubmitReview: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  authorizationStatus: state.authorizationStatus,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onSubmitReview(review, id) {
+    dispatch(reviewFilm(review, id));
+  },
+});
+
+export {AddReview};
+export default connect(mapStateToProps, mapDispatchToProps)(AddReview);

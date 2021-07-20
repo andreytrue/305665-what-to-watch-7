@@ -5,8 +5,12 @@ export const ActionType = {
   RESET_FILMS: 'films/resetFilms',
   LOAD_FILMS: 'load/loadFilms',
   REQUIRED_AUTHORIZATION: 'user/requiredAuthorization',
+  LOGIN: 'user/login',
   LOGOUT: 'user/logout',
   REDIRECT_TO_ROUTE: 'app/redirectToRoute',
+  LOAD_SELECTED_FILM: 'load/selectedFilm',
+  LOAD_SIMILAR_FILMS: 'load/similarFilms',
+  LOAD_REVIEWS: 'load/reviews',
 };
 
 export const ActionCreator = {
@@ -38,5 +42,21 @@ export const ActionCreator = {
   redirectToRoute: (url) => ({
     type: ActionType.REDIRECT_TO_ROUTE,
     payload: url,
+  }),
+  submitLogin: (authData) => ({
+    type: ActionType.LOGIN,
+    payload: authData,
+  }),
+  loadSelectedFilm: (film) => ({
+    type: ActionType.LOAD_SELECTED_FILM,
+    payload: film,
+  }),
+  loadSimilarFilms: (films) => ({
+    type: ActionType.LOAD_SIMILAR_FILMS,
+    payload: films,
+  }),
+  loadReviews: (reviews) => ({
+    type: ActionType.LOAD_REVIEWS,
+    payload: reviews,
   }),
 };
