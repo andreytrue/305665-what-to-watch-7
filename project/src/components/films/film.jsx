@@ -1,28 +1,38 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import {useParams, Link} from 'react-router-dom';
 import Footer from '../footer/footer';
 import Tabs from '../tabs/tabs';
-import filmProp from './films.prop';
-import reviewsProp from '../review/reviews.prop';
 import FilmsList from '../films-list/films-list';
 import {FILMS_RECOMMENDATION_MAX} from '../const/const';
 
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import GuestHeader from '../headers/guest-header';
 import UserHeader from '../headers/user-header';
 import { userIsAuth } from '../src/common';
 import { fetchReviews, fetchSelectedFilm, fetchSimilarFilms } from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
 
-function Film({ authorizationStatus, selectedFilm, getSelectedFilm, isSelectedFilmLoaded, similarFilms, getSimilarFilms, reviews, getReviews, isReviewLoaded }) {
+import { getAuthorizationStatus } from '../../store/user/selectors';
+import { getSelectedFilm, getSelectedFilmStatus, getSimilarFilms } from '../../store/films-data/selectors';
+import { getReviews, getReviewsStatus } from '../../store/reviews-data/selectors';
+
+function Film() {
   const {id} = useParams();
 
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const selectedFilm = useSelector(getSelectedFilm);
+  const isSelectedFilmLoaded = useSelector(getSelectedFilmStatus);
+  const similarFilms = useSelector(getSimilarFilms);
+  const reviews = useSelector(getReviews);
+  const isReviewLoaded = useSelector(getReviewsStatus);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    getSelectedFilm(id);
-    getSimilarFilms(id);
-    getReviews(id);
-  }, [getSelectedFilm, getSimilarFilms, getReviews, id]);
+    dispatch(fetchSelectedFilm(id));
+    dispatch(fetchSimilarFilms(id));
+    dispatch(fetchReviews(id));
+  }, [dispatch, id]);
 
   const {name,
     posterImage,
@@ -107,38 +117,4 @@ function Film({ authorizationStatus, selectedFilm, getSelectedFilm, isSelectedFi
   );
 }
 
-Film.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired,
-  selectedFilm: PropTypes.arrayOf(PropTypes.shape(filmProp)).isRequired,
-  similarFilms: PropTypes.arrayOf(PropTypes.shape(filmProp)).isRequired,
-  getSelectedFilm: PropTypes.func.isRequired,
-  isSelectedFilmLoaded: PropTypes.bool.isRequired,
-  getSimilarFilms: PropTypes.func.isRequired,
-  reviews: PropTypes.arrayOf(PropTypes.shape(reviewsProp)).isRequired,
-  getReviews: PropTypes.func.isRequired,
-  isReviewLoaded: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
-  isSelectedFilmLoaded: state.isSelectedFilmLoaded,
-  selectedFilm: state.selectedFilm,
-  similarFilms: state.similarFilms,
-  reviews: state.reviews,
-  isReviewLoaded: state.isReviewLoaded,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  getSelectedFilm(id) {
-    dispatch(fetchSelectedFilm(id));
-  },
-  getSimilarFilms(id) {
-    dispatch(fetchSimilarFilms(id));
-  },
-  getReviews(id) {
-    dispatch(fetchReviews(id));
-  },
-});
-
-export {Film};
-export default connect(mapStateToProps, mapDispatchToProps)(Film);
+export default Film;

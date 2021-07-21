@@ -1,22 +1,22 @@
 import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { reviewFilm } from '../../store/api-actions';
 
-function AddReview({ authorizationStatus, onSubmitReview }) {
+function AddReview() {
   const {id} = useParams();
 
   const commentRef = useRef();
 
+  const dispatch = useDispatch();
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    onSubmitReview({
+    dispatch(reviewFilm({
       rating: Number(fieldChange),
       comment: commentRef.current.value ?? '',
-    }, id);
+    }, id));
   };
 
   // eslint-disable-next-line
@@ -65,20 +65,4 @@ function AddReview({ authorizationStatus, onSubmitReview }) {
   );
 }
 
-AddReview.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired,
-  onSubmitReview: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmitReview(review, id) {
-    dispatch(reviewFilm(review, id));
-  },
-});
-
-export {AddReview};
-export default connect(mapStateToProps, mapDispatchToProps)(AddReview);
+export default AddReview;
