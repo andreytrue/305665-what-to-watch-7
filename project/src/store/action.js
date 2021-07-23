@@ -1,3 +1,5 @@
+import {createAction} from '@reduxjs/toolkit';
+
 export const ActionType = {
   GENRE_CHANGE: 'genres/genreChange',
   RESET_GENRE: 'genres/genreReset',
@@ -13,50 +15,44 @@ export const ActionType = {
   LOAD_REVIEWS: 'load/reviews',
 };
 
-export const ActionCreator = {
-  genreChange: (genre) => ({
-    type: ActionType.GENRE_CHANGE,
-    payload: genre,
-  }),
-  resetGenre: () => ({
-    type: ActionType.RESET_GENRE,
-  }),
-  addFilms: (filmsListAmount) => ({
-    type: ActionType.ADD_FILMS,
-    payload: filmsListAmount,
-  }),
-  resetFilms: () => ({
-    type: ActionType.RESET_FILMS,
-  }),
-  loadFilms: (films) => ({
-    type: ActionType.LOAD_FILMS,
-    payload: films,
-  }),
-  requireAuthorization: (status) => ({
-    type: ActionType.REQUIRED_AUTHORIZATION,
-    payload: status,
-  }),
-  logout: () => ({
-    type: ActionType.LOGOUT,
-  }),
-  redirectToRoute: (url) => ({
-    type: ActionType.REDIRECT_TO_ROUTE,
-    payload: url,
-  }),
-  submitLogin: (authData) => ({
-    type: ActionType.LOGIN,
-    payload: authData,
-  }),
-  loadSelectedFilm: (film) => ({
-    type: ActionType.LOAD_SELECTED_FILM,
-    payload: film,
-  }),
-  loadSimilarFilms: (films) => ({
-    type: ActionType.LOAD_SIMILAR_FILMS,
-    payload: films,
-  }),
-  loadReviews: (reviews) => ({
-    type: ActionType.LOAD_REVIEWS,
-    payload: reviews,
-  }),
-};
+export const genreChange = createAction(ActionType.GENRE_CHANGE, (genre) => ({
+  payload: genre,
+}));
+
+export const resetGenre = createAction(ActionType.RESET_GENRE);
+
+export const addFilms = createAction(ActionType.ADD_FILMS, (filmsListAmount) => ({
+  payload: filmsListAmount,
+}));
+
+export const resetFilms = createAction(ActionType.RESET_FILMS);
+
+export const loadFilms = createAction(ActionType.LOAD_FILMS, (films) => ({
+  payload: films,
+}));
+
+export const requireAuthorization = createAction(ActionType.REQUIRED_AUTHORIZATION, (status) => ({
+  payload: status,
+}));
+
+export const submitLogout = createAction(ActionType.LOGOUT);
+
+export const redirectToRoute = createAction(ActionType.REDIRECT_TO_ROUTE, (url) => ({
+  payload: url,
+}));
+
+export const submitLogin = createAction(ActionType.LOGIN, (authData) => ({
+  payload: authData,
+}));
+
+export const loadSelectedFilm = createAction(ActionType.LOAD_SELECTED_FILM, (film) => ({
+  payload: film,
+}));
+
+export const loadSimilarFilms = createAction(ActionType.LOAD_SIMILAR_FILMS, (films) => ({
+  payload: films,
+}));
+
+export const loadReviews = createAction(ActionType.LOAD_REVIEWS, (reviews) => ({
+  payload: reviews,
+}));

@@ -40,4 +40,4 @@ FilmsList.propTypes = {
   filmsListAmount: PropTypes.number,
 };
 
-export default FilmsList;
+export default React.memo(FilmsList);

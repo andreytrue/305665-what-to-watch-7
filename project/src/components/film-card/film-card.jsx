@@ -33,4 +33,4 @@ FilmCard.propTypes = {
   onMouseOver: PropTypes.func,
 };
 
-export default FilmCard;
+export default React.memo(FilmCard);

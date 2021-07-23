@@ -1,15 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import Logo from '../logo/logo';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../src/const';
-import { ActionCreator } from '../../store/action';
+import { submitLogout } from '../../store/action';
 
-function UserHeader(props) {
-
-  const { onSignOutClick } = props;
+function UserHeader() {
+  const dispatch = useDispatch();
 
   return (
     <header className="page-header film-card__head">
@@ -25,7 +23,7 @@ function UserHeader(props) {
           <Link
             className="user-block__link"
             to={AppRoute.MAIN}
-            onClick={ onSignOutClick }
+            onClick={ () => dispatch(submitLogout()) }
           >
             Sign out
           </Link>
@@ -35,15 +33,4 @@ function UserHeader(props) {
   );
 }
 
-UserHeader.propTypes = {
-  onSignOutClick: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  onSignOutClick() {
-    dispatch(ActionCreator.logout());
-  },
-});
-
-export {UserHeader};
-export default connect(null, mapDispatchToProps)(UserHeader);
+export default UserHeader;
