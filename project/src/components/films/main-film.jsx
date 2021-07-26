@@ -2,13 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import filmProp from './films.prop';
 import { userIsAuth } from '../src/common';
-
 import GuestHeader from '../headers/guest-header';
 import UserHeader from '../headers/user-header';
+import FilmButtons from '../film-buttons/film-buttons';
 
-function MainFilm({authorizationStatus, films}) {
-
-  const mainFilm = films[0];
+function MainFilm({authorizationStatus, mainFilm}) {
   const posterImageAlt = mainFilm.name + ' poster'; // eslint-disable-line prefer-template
 
   return (
@@ -36,20 +34,7 @@ function MainFilm({authorizationStatus, films}) {
               <span className="film-card__year">{mainFilm.released}</span>
             </p>
 
-            <div className="film-card__buttons">
-              <button className="btn btn--play film-card__button" type="button">
-                <svg viewBox="0 0 19 19" width="19" height="19">
-                  <use xlinkHref="_blankplay-s"></use>
-                </svg>
-                <span>Play</span>
-              </button>
-              <button className="btn btn--list film-card__button" type="button">
-                <svg viewBox="0 0 19 20" width="19" height="20">
-                  <use xlinkHref="_blankadd"></use>
-                </svg>
-                <span>My list</span>
-              </button>
-            </div>
+            <FilmButtons id={mainFilm.id} isFavorite={mainFilm.isFavorite} />
           </div>
         </div>
       </div>
@@ -59,7 +44,7 @@ function MainFilm({authorizationStatus, films}) {
 
 MainFilm.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
-  films: PropTypes.arrayOf(PropTypes.shape(filmProp)),
+  mainFilm: PropTypes.shape(filmProp),
 };
 
 export default React.memo(MainFilm);

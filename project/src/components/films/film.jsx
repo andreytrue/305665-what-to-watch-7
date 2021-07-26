@@ -1,23 +1,25 @@
 import React, { useEffect } from 'react';
-import {useParams, Link} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Footer from '../footer/footer';
 import Tabs from '../tabs/tabs';
 import FilmsList from '../films-list/films-list';
 import {FILMS_RECOMMENDATION_MAX} from '../const/const';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import GuestHeader from '../headers/guest-header';
 import UserHeader from '../headers/user-header';
 import { userIsAuth } from '../src/common';
-import { fetchReviews, fetchSelectedFilm, fetchSimilarFilms } from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
-
-import { getAuthorizationStatus } from '../../store/user/selectors';
-import { getSelectedFilm, getSelectedFilmStatus, getSimilarFilms } from '../../store/films-data/selectors';
+import { fetchReviews, fetchSelectedFilm, fetchSimilarFilms } from '../../store/api-actions';
+import { getSelectedFilm, getSimilarFilms, getSelectedFilmStatus } from '../../store/films-data/selectors';
 import { getReviews, getReviewsStatus } from '../../store/reviews-data/selectors';
+import { getAuthorizationStatus } from '../../store/user/selectors';
+import FilmButtons from '../film-buttons/film-buttons';
 
 function Film() {
   const {id} = useParams();
+
+  const dispatch = useDispatch();
 
   const authorizationStatus = useSelector(getAuthorizationStatus);
   const selectedFilm = useSelector(getSelectedFilm);
@@ -25,8 +27,6 @@ function Film() {
   const similarFilms = useSelector(getSimilarFilms);
   const reviews = useSelector(getReviews);
   const isReviewLoaded = useSelector(getReviewsStatus);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchSelectedFilm(id));
@@ -39,6 +39,7 @@ function Film() {
     backgroundImage,
     genre,
     released,
+    isFavorite,
   } = selectedFilm;
 
   if (!isSelectedFilmLoaded && !isReviewLoaded) {
@@ -71,23 +72,7 @@ function Film() {
                 <span className="film-card__year">{released}</span>
               </p>
 
-              <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
-                {userIsAuth(authorizationStatus)
-                  ? <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>
-                  : ''}
-              </div>
+              <FilmButtons id={id} isFavorite={isFavorite} />
             </div>
           </div>
         </div>
@@ -117,4 +102,4 @@ function Film() {
   );
 }
 
-export default Film;
+export default React.memo(Film);
