@@ -14,7 +14,6 @@ export const ActionType = {
   LOAD_SIMILAR_FILMS: 'load/similarFilms',
   LOAD_REVIEWS: 'load/reviews',
   LOAD_FAVORITE_FILMS : 'load/favoriteFilms',
-  ADD_MAIN_FILM: 'films/addMainFilm',
 };
 
 export const genreChange = createAction(ActionType.GENRE_CHANGE, (genre) => ({
@@ -61,8 +60,4 @@ export const loadReviews = createAction(ActionType.LOAD_REVIEWS, (reviews) => ({
 
 export const loadFavoriteFilms = createAction(ActionType.LOAD_FAVORITE_FILMS, (films) => ({
   payload: films,
-}));
-
-export const addMainFilm = createAction(ActionType.ADD_MAIN_FILM, (mainFilm) => ({
-  payload: mainFilm,
 }));
