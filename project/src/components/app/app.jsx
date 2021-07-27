@@ -37,12 +37,12 @@ function App() {
         <Route exact path={AppRoute.LOGIN}>
           <Login />
         </Route>
-        <PrivateRoute
+        <Route
           exact
           path={AppRoute.MYLIST}
           render={() => <MyList />}
         >
-        </PrivateRoute>
+        </Route>
         <Route exact path={AppRoute.FILM}>
           <Film authorizationStatus={authorizationStatus} />
         </Route>

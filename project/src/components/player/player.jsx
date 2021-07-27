@@ -1,10 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { getFilms } from '../../store/films-data/selectors';
 
-function Player({videoUrl}) {
+function Player() {
+  const {id} = useParams();
+  const films = useSelector(getFilms);
+
+  const film = films.find((item) => item.id === Number(id));
+
+  const timecode = `${Math.floor(film.runTime / 60)}:${Math.floor(film.runTime % 60)}:00`;
+
   return (
     <div className="player">
-      <video videoUrl={videoUrl} className="player__video" poster="img/player-poster.jpg"></video>
+      <video videoUrl={film.videoLink} className="player__video" poster="img/player-poster.jpg"></video>
 
       <button type="button" className="player__exit">Exit</button>
 
@@ -14,7 +23,7 @@ function Player({videoUrl}) {
             <progress className="player__progress" value="30" max="100"></progress>
             <div className="player__toggler" style={{left: '30'}}>Toggler</div>
           </div>
-          <div className="player__time-value">1:30:29</div>
+          <div className="player__time-value">{timecode}</div>
         </div>
 
         <div className="player__controls-row">
@@ -37,9 +46,5 @@ function Player({videoUrl}) {
     </div>
   );
 }
-
-Player.propTypes = {
-  videoUrl: PropTypes.string,
-};
 
 export default Player;

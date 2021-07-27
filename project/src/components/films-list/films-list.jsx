@@ -4,7 +4,7 @@ import FilmCard from '../film-card/film-card';
 import filmProp from '../films/films.prop';
 import {ALL_GENRES} from '../const/const';
 
-function FilmsList ({ films, genre, filmsListAmount }){
+function FilmsList ({ films, genre = ALL_GENRES, filmsListAmount = films.length}){
   // eslint-disable-next-line
   const [activeFilm, setActiveFilm] = React.useState(-1);
 
@@ -40,4 +40,4 @@ FilmsList.propTypes = {
   filmsListAmount: PropTypes.number,
 };
 
-export default React.memo(FilmsList);
+export default FilmsList;

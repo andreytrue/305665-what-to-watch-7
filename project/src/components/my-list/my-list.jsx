@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FilmsList from '../films-list/films-list';
 import Logo from '../logo/logo';
 import Footer from '../footer/footer';
-import PropTypes from 'prop-types';
-import filmProp from '../films/films.prop';
+import { useDispatch, useSelector } from 'react-redux';
+import { getFavoriteFilms } from '../../store/films-data/selectors';
+import { fetchFavoriteFilms } from '../../store/api-actions';
 
-function MyList({films}) {
-  const favoriteFilms = films.filter((film) => film.isFavorite);
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../src/const';
+import { submitLogout } from '../../store/action';
+
+function MyList() {
+  const dispatch = useDispatch();
+  const favoriteFilms = useSelector(getFavoriteFilms);
+
+  useEffect(() => {
+    dispatch(fetchFavoriteFilms());
+  }, [dispatch]);
 
   return (
     <div className="user-page">
@@ -22,7 +32,13 @@ function MyList({films}) {
             </div>
           </li>
           <li className="user-block__item">
-            <a className="user-block__link" href="/">Sign out</a>
+            <Link
+              className="user-block__link"
+              to={AppRoute.MAIN}
+              onClick={ () => dispatch(submitLogout()) }
+            >
+              Sign out
+            </Link>
           </li>
         </ul>
       </header>
@@ -37,9 +53,5 @@ function MyList({films}) {
     </div>
   );
 }
-
-MyList.propTypes = {
-  films: PropTypes.arrayOf(PropTypes.shape(filmProp)),
-};
 
 export default MyList;

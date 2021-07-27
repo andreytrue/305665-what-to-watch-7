@@ -6,23 +6,28 @@ import Genres from '../genres/genres';
 import ShowMore from '../show-more/show-more';
 import { genreChange, addFilms, resetFilms } from '../../store/action';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { fetchSelectedFilm } from '../../store/api-actions';
 import { getAuthorizationStatus } from '../../store/user/selectors';
-import { getFilms, getGenre, getFilmsListAmount } from '../../store/films-data/selectors';
+import { getFilms, getGenre, getFilmsListAmount, getSelectedFilm } from '../../store/films-data/selectors';
 
 function WelcomeScreen() {
   const authorizationStatus = useSelector(getAuthorizationStatus);
   const films = useSelector(getFilms);
   const filmsListAmount = useSelector(getFilmsListAmount);
   const genre = useSelector(getGenre);
+  const mainFilm = useSelector(getSelectedFilm);
   const dispatch = useDispatch();
+
+  const mainFilmID = films[0].id;
 
   // eslint-disable-next-line
   useEffect(() => {
+    dispatch(fetchSelectedFilm(mainFilmID));
+
     return () => {
       dispatch(resetFilms());
     };
-  }, [dispatch]);
+  }, [dispatch, mainFilmID]);
 
   const onShowMoreClick = () => {
     dispatch(addFilms(filmsListAmount));
@@ -34,7 +39,7 @@ function WelcomeScreen() {
 
   return (
     <div className="page-content">
-      <MainFilm authorizationStatus={authorizationStatus} films={films} />
+      <MainFilm authorizationStatus={authorizationStatus} mainFilm={mainFilm} />
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
