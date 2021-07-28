@@ -195,7 +195,7 @@ describe('Async operations', () => {
   });
 
   it('should make a correct API call to POST /favorite/:id/status', () => {
-    const apiMock = new MockAdapter(api, { onNoMatch: "throwException" });
+    const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
     const fakeReplyFalse = {'is_favorite':false, 'id': 1};
     const fakeReplyTrue = {
@@ -223,16 +223,26 @@ describe('Async operations', () => {
       'is_favorite': true,
     }];
 
-    const favoriteLoader = addFilmToFavorite(fakeReplyTrue.id, fakeReplyTrue.isFavorite);
+    const favoriteLoader = addFilmToFavorite(fakeReplyTrue.id, fakeReplyTrue.isFavorite ? '1' : '0');
+    const selectedFilmLoader = fetchSelectedFilm(fakeReplyTrue.id);
 
     apiMock
       .onPost(`${APIRoute.FAVORITE}/${fakeReplyTrue.id}/${fakeReplyTrue.isFavorite ? '1' : '0'}`)
       .reply(200, fakeReplyFalse);
 
-    return favoriteLoader(dispatch, () => {}, api)
+    favoriteLoader(dispatch, () => {}, api)
       .then(() => {
-        expect(dispatch).toHaveBeenCalledTimes(1);
-        expect(dispatch).toHaveBeenNthCalledWith(1, {
+        expect(dispatch).toHaveBeenCalledTimes(2);
+      });
+
+    apiMock
+      .onGet(`${APIRoute.FILMS}/${fakeReplyTrue.id}`)
+      .reply(200, fakeSelectedFilm);
+
+    return selectedFilmLoader(dispatch, () => {}, api)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(2);
+        expect(dispatch).toHaveBeenNthCalledWith(2, {
           type: ActionType.LOAD_SELECTED_FILM,
           payload: fakeSelectedFilm,
         });

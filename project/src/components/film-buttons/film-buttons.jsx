@@ -45,7 +45,7 @@ function FilmButtons({id, isFavorite}) {
 }
 
 FilmButtons.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.number,
   isFavorite: PropTypes.bool,
 };
 
