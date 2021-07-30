@@ -17,9 +17,6 @@ function AddReview() {
   const [formDisable, setFormDisable] = React.useState(true);
   const [loadError, setLoadError] = React.useState(false);
 
-  // eslint-disable-next-line
-  console.log('isLoading 0', isLoading);
-
   const handleRateOnClick = React.useCallback((evt) => {
     setReviewRate(evt.target.value);
 
@@ -36,11 +33,7 @@ function AddReview() {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    // eslint-disable-next-line
-    console.log('isLoading 1', isLoading);
     dispatch(reviewIsLoading(true));
-    // eslint-disable-next-line
-    console.log('isLoading 2', isLoading);
     const filmReview = await dispatch(reviewFilm({
       rating: Number(reviewRate),
       comment: reviewComment,
