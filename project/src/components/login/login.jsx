@@ -1,23 +1,43 @@
-import React, {useRef} from 'react';
-import { useDispatch } from 'react-redux';
+import React, {useRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Logo from '../logo/logo';
 import Footer from '../footer/footer';
 import { login } from '../../store/api-actions';
+import { useHistory } from 'react-router-dom';
+import { requireAuthorization } from '../../store/action';
+import { AuthorizationStatus } from '../../utils/const';
+import { getAuthorizationStatus } from '../../store/user/selectors';
+import { userIsAuth } from '../../utils/common';
 
 function Login() {
+  const authorizationStatus = useSelector(getAuthorizationStatus);
   const loginRef = useRef();
   const passwordRef = useRef();
+  const history = useHistory();
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (token || userIsAuth(authorizationStatus)) {
+      dispatch(requireAuthorization(AuthorizationStatus.AUTH));
+      history.push('/');
+    } else if (!token && !userIsAuth(authorizationStatus)) {
+      history.push('/login');
+    }
+  }, [dispatch, history, authorizationStatus]);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    dispatch(login({
-      login: loginRef.current.value,
-      password: passwordRef.current.value,
-    }));
+    if (passwordRef.current.value.trim().length > 0) {
+      dispatch(login({
+        login: loginRef.current.value,
+        password: passwordRef.current.value,
+      }));
+    }
   };
 
   return (

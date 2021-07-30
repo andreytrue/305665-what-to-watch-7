@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from '../logo/logo';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../src/const';
+import { AppRoute } from '../../utils/const';
 
 function GuestHeader() {
   return(

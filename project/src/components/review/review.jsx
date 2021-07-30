@@ -1,6 +1,6 @@
 import React from 'react';
 import Logo from '../logo/logo';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import filmProp from '../films/films.prop';
 import AddReview from '../add-review/add-review';
@@ -24,7 +24,7 @@ function Review({selectedFilm}) {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">{reviewedFilm.name}</a>
+                <Link to={`/films/${reviewedFilm.id}`} className="breadcrumbs__link">{reviewedFilm.name}</Link>
               </li>
               <li className="breadcrumbs__item">
                 <Link className="breadcrumbs__link" to='/films/:id/review'>Add review</Link>

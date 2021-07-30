@@ -6,8 +6,8 @@ import configureStore from 'redux-mock-store';
 import { createMemoryHistory } from 'history';
 
 import { films } from '../../mocks/films';
-import { selectedFilmAdapter } from '../src/adapter';
-import { AuthorizationStatus } from '../src/const';
+import { selectedFilmAdapter } from '../../utils/adapter';
+import { AuthorizationStatus } from '../../utils/const';
 import MainFilm from './main-film';
 
 const mockStore = configureStore({});

@@ -10,8 +10,8 @@ import Player from '../player/player';
 import Review from '../review/review';
 import LoadingScreen from '../loading-screen/loading-screen';
 import PrivateRoute from '../private-route/private-route';
-import {AppRoute} from '../src/const';
-import { isCheckedAuth } from '../src/common';
+import {AppRoute} from '../../utils/const';
+import { isCheckedAuth } from '../../utils/common';
 import browserHistory from '../../browser-history';
 
 import { getSelectedFilm, getDataLoadedStatus } from '../../store/films-data/selectors';
@@ -35,14 +35,15 @@ function App() {
           <WelcomeScreen />
         </Route>
         <Route exact path={AppRoute.LOGIN}>
-          <Login />
+          <Login authorizationStatus={authorizationStatus}  />
         </Route>
-        <Route
+        <PrivateRoute
           exact
           path={AppRoute.MYLIST}
+          authorizationStatus={authorizationStatus}
           render={() => <MyList />}
         >
-        </Route>
+        </PrivateRoute>
         <Route exact path={AppRoute.FILM}>
           <Film authorizationStatus={authorizationStatus} />
         </Route>

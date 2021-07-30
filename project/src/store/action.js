@@ -8,12 +8,14 @@ export const ActionType = {
   LOAD_FILMS: 'load/loadFilms',
   REQUIRED_AUTHORIZATION: 'user/requiredAuthorization',
   LOGIN: 'user/login',
-  LOGOUT: 'user/logout',
   REDIRECT_TO_ROUTE: 'app/redirectToRoute',
   LOAD_SELECTED_FILM: 'load/selectedFilm',
   LOAD_SIMILAR_FILMS: 'load/similarFilms',
   LOAD_REVIEWS: 'load/reviews',
   LOAD_FAVORITE_FILMS : 'load/favoriteFilms',
+  LOAD_FAVORITE_FILM: 'load/favoriteFilm',
+  LOAD_PROMO_FILM: 'load/promoFilm',
+  REVIEW_IS_LOADING: 'review/isLoading',
 };
 
 export const genreChange = createAction(ActionType.GENRE_CHANGE, (genre) => ({
@@ -60,4 +62,16 @@ export const loadReviews = createAction(ActionType.LOAD_REVIEWS, (reviews) => ({
 
 export const loadFavoriteFilms = createAction(ActionType.LOAD_FAVORITE_FILMS, (films) => ({
   payload: films,
+}));
+
+export const loadFavoriteFilm = createAction(ActionType.LOAD_FAVORITE_FILM, (film) => ({
+  payload: film,
+}));
+
+export const loadPromoFilm = createAction(ActionType.LOAD_PROMO_FILM, (film) => ({
+  payload: film,
+}));
+
+export const reviewIsLoading = createAction(ActionType.REVIEW_IS_LOADING, (isLoading) => ({
+  payload: isLoading,
 }));

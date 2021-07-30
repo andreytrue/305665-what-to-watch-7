@@ -8,3 +8,4 @@ export const getSimilarFilms = (state) => state[NameSpace.FILMS].similarFilms;
 export const getDataLoadedStatus = (state) => state[NameSpace.FILMS].isDataLoaded;
 export const getSelectedFilmStatus = (state) => state[NameSpace.FILMS].isSelectedFilmLoaded;
 export const getFavoriteFilms = (state) => state[NameSpace.FILMS].favoriteFilms;
+export const getPromoFilm = (state) => state[NameSpace.FILMS].promoFilm;

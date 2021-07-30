@@ -3,18 +3,18 @@ import { useParams } from 'react-router-dom';
 import Footer from '../footer/footer';
 import Tabs from '../tabs/tabs';
 import FilmsList from '../films-list/films-list';
-import {FILMS_RECOMMENDATION_MAX} from '../const/const';
+import {FILMS_RECOMMENDATION_MAX} from '../../utils/const';
+import { Link } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import GuestHeader from '../headers/guest-header';
 import UserHeader from '../headers/user-header';
-import { userIsAuth } from '../src/common';
+import { userIsAuth } from '../../utils/common';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { fetchReviews, fetchSelectedFilm, fetchSimilarFilms } from '../../store/api-actions';
+import { fetchReviews, fetchSelectedFilm, fetchSimilarFilms, addFilmToFavorite } from '../../store/api-actions';
 import { getSelectedFilm, getSimilarFilms, getSelectedFilmStatus } from '../../store/films-data/selectors';
 import { getReviews, getReviewsStatus } from '../../store/reviews-data/selectors';
 import { getAuthorizationStatus } from '../../store/user/selectors';
-import FilmButtons from '../film-buttons/film-buttons';
 
 function Film() {
   const {id} = useParams();
@@ -48,6 +48,12 @@ function Film() {
     );
   }
 
+  const addToFavorite = (evt) => {
+    evt.preventDefault();
+
+    dispatch(addFilmToFavorite(id, !isFavorite ? 1 : 0));
+  };
+
   const recommendedFilms = similarFilms.slice(0, FILMS_RECOMMENDATION_MAX);
 
   return (
@@ -72,7 +78,29 @@ function Film() {
                 <span className="film-card__year">{released}</span>
               </p>
 
-              <FilmButtons id={id} isFavorite={isFavorite} />
+              <div className="film-card__buttons">
+                <Link to={`/player/${id}`} style={{textDecoration: 'none'}}>
+                  <button className="btn btn--play film-card__button" type="button">
+                    <svg viewBox="0 0 19 19" width="19" height="19">
+                      <use xlinkHref="#play-s"></use>
+                    </svg>
+                    <span>Play</span>
+                  </button>
+                </Link>
+                <button className="btn btn--list film-card__button" type="button" onClick={addToFavorite}>
+                  <svg viewBox="0 0 19 20" width="19" height="20">
+
+                    {isFavorite
+                      ? <use xlinkHref="#in-list"></use>
+                      : <use xlinkHref="#add"></use>}
+
+                  </svg>
+                  <span>My list</span>
+                </button>
+                {userIsAuth(authorizationStatus)
+                  ? <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>
+                  : ''}
+              </div>
             </div>
           </div>
         </div>

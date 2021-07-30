@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import filmProp from '../films/films.prop';
+import { GENRES_MAX_AMOUNT } from '../../utils/const';
 
 function Genres({films, genre, onGenreClick}) {
   const filmGenres = films.map((film) => film.genre);
 
   const filteredGenres = Array.from(new Set(filmGenres));
+  filteredGenres.slice(0, GENRES_MAX_AMOUNT);
   filteredGenres.unshift('All genres');
 
   const activeGenreClassName = 'catalog__genres-item--active';
