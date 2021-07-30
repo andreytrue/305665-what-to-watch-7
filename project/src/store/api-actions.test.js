@@ -1,8 +1,8 @@
 import MockAdapter from 'axios-mock-adapter';
 import { createAPI } from '../components/services/api';
 import { ActionType } from './action';
-import { APIRoute } from '../components/src/const';
-import { AuthorizationStatus } from '../components/src/const';
+import { APIRoute } from '../utils/const';
+import { AuthorizationStatus } from '../utils/const';
 import {
   checkAuth,
   fetchFilmsList,
@@ -164,7 +164,7 @@ describe('Async operations', () => {
 
     return reviewsLoader(dispatch, () => {}, api)
       .then(() => {
-        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledTimes(3);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.LOAD_REVIEWS,
           payload: expectedFakeComment,

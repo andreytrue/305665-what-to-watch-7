@@ -8,6 +8,7 @@ describe('Reducer: reviewsData', () => {
       .toEqual({
         reviews: [],
         isReviewLoaded: false,
+        isReviewSending: false,
       });
   });
 

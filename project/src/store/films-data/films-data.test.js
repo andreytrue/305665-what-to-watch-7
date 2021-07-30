@@ -2,7 +2,7 @@ import { filmsData } from './films-data';
 import { ActionType } from '../action';
 
 import { films } from '../../mocks/films';
-import { selectedFilmAdapter, FilmsAdapter } from '../../components/src/adapter';
+import { selectedFilmAdapter, FilmsAdapter } from '../../utils/adapter';
 
 describe('Reducer: filmsData', () => {
   it('without additional parameters should return initial state', () => {
@@ -17,6 +17,7 @@ describe('Reducer: filmsData', () => {
         similarFilms: [],
         favoriteFilms: [],
         isFavoriteFilmsLoaded: false,
+        promoFilm: [],
       });
   });
 
