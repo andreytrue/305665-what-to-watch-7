@@ -14,7 +14,7 @@ function FilmButtons({id, isFavorite}) {
   const addToFavorite = (evt) => {
     evt.preventDefault();
 
-    dispatch(addFilmToFavorite(id, !isFavorite ? 1 : 0));
+    dispatch(addFilmToFavorite(String(id), !isFavorite ? 1 : 0));
   };
 
   return (

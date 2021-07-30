@@ -7,7 +7,7 @@ import App from './components/app/app';
 import rootReducer from './store/root-reducer';
 import { createAPI } from './components/services/api';
 import { checkAuth, fetchFilmsList } from './store/api-actions';
-import { AuthorizationStatus } from './components/src/const';
+import { AuthorizationStatus } from './utils/const';
 import { requireAuthorization } from './store/action';
 import { redirect } from '../src/store/redirect';
 

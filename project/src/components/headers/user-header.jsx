@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import Logo from '../logo/logo';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../src/const';
+import { AppRoute } from '../../utils/const';
 import { submitLogout } from '../../store/action';
 
 function UserHeader() {
@@ -15,9 +15,11 @@ function UserHeader() {
 
       <ul className="user-block">
         <li className="user-block__item">
-          <div className="user-block__avatar">
-            <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-          </div>
+          <Link to={'/mylist'}>
+            <div className="user-block__avatar">
+              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+            </div>
+          </Link>
         </li>
         <li className="user-block__item">
           <Link

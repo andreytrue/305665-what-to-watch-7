@@ -5,8 +5,6 @@ import filmProp from '../films/films.prop';
 import VideoPlayer from '../videoplayer/video-player';
 
 function FilmCard({film, onMouseOver}) {
-  // eslint-disable-next-line
-  const location = '/films/' + (film.id);
   const [isPlaying, setIsPlaying] = useState(false);
 
   return (
@@ -22,7 +20,7 @@ function FilmCard({film, onMouseOver}) {
           <VideoPlayer film={film} key={film.id} src={film.previewVideoLink} isPlaying={isPlaying}/>}
       </div>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={location}>{film.name}</Link>
+        <Link className="small-film-card__link" to={`/films/${film.id}`}>{film.name}</Link>
       </h3>
     </article>
   );

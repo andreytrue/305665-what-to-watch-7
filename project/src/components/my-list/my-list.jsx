@@ -7,7 +7,7 @@ import { getFavoriteFilms } from '../../store/films-data/selectors';
 import { fetchFavoriteFilms } from '../../store/api-actions';
 
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../src/const';
+import { AppRoute } from '../../utils/const';
 import { submitLogout } from '../../store/action';
 
 function MyList() {

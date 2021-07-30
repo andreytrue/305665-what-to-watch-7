@@ -1,11 +1,11 @@
 import { ActionType } from '../action';
 import { user } from './user';
-import { AuthorizationStatus } from '../../components/src/const';
+import { AuthorizationStatus } from '../../utils/const';
 
 describe('Reducer: user', () => {
   it('without additional parameters should return initial state', () => {
     expect(user(undefined, {}))
-      .toEqual({authorizationStatus: AuthorizationStatus.UNKNOWN});
+      .toEqual({authorizationStatus: AuthorizationStatus.NO_AUTH});
   });
 
   it('should update authorization status to "AUTH"', () => {

@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import filmProp from '../films/films.prop';
+import { filmRating } from '../../utils/common';
 
 function TabOverview({film}) {
   const {
@@ -16,7 +17,7 @@ function TabOverview({film}) {
       <div className="film-rating">
         <div className="film-rating__score">{rating}</div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">Very good</span>
+          <span className="film-rating__level">{filmRating(rating)}</span>
           <span className="film-rating__count">{scoresCount} ratings</span>
         </p>
       </div>

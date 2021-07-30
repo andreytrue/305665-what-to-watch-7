@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { AuthorizationStatus } from '../../components/src/const';
+import { AuthorizationStatus } from '../../utils/const';
 import { login } from '../api-actions';
 import { requireAuthorization, submitLogout, submitLogin} from '../action';
 

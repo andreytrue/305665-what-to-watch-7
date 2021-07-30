@@ -1,5 +1,16 @@
-import { AppRoute, AuthorizationStatus, APIRoute } from '../components/src/const';
-import { loadFilms, requireAuthorization, redirectToRoute, submitLogout, loadSelectedFilm, loadSimilarFilms, loadReviews, loadFavoriteFilms } from './action';
+import { AppRoute, AuthorizationStatus, APIRoute } from '../utils/const';
+import {
+  loadFilms,
+  requireAuthorization,
+  redirectToRoute,
+  submitLogout,
+  loadSelectedFilm,
+  loadSimilarFilms,
+  loadReviews,
+  loadFavoriteFilms,
+  loadPromoFilm,
+  reviewIsLoading
+} from './action';
 
 const handleError = (err) => {
   // eslint-disable-next-line
@@ -58,7 +69,9 @@ export const reviewFilm = ({ rating, comment }, id) => (dispatch, _getState, api
   setApiHeaderWithToken(api);
   return api.post(`${APIRoute.COMMENTS}/${id}`, { rating, comment })
     .then(({ data }) => dispatch(loadReviews(data)))
-    .catch(() => {});
+    .then(() => dispatch(redirectToRoute(`${APIRoute.FILMS}/${id}`)))
+    .then(() => dispatch(reviewIsLoading(false)))
+    .catch(() => dispatch(reviewIsLoading(false)));
 };
 
 export const fetchFavoriteFilms = () => (dispatch, _getState, api) => {
@@ -71,4 +84,16 @@ export const addFilmToFavorite = (id, status) => (dispatch, _getState, api) => {
   setApiHeaderWithToken(api);
   return api.post(`${APIRoute.FAVORITE}/${id}/${status}`)
     .then(() => dispatch(fetchSelectedFilm(id)));
+};
+
+export const fetchPromoFilm = () => (dispatch, _getState, api) => {
+  api.get(APIRoute.PROMO)
+    .then(({data}) => dispatch(loadPromoFilm(data)))
+    .catch(() => {});
+};
+
+export const addPromoToFavorite = (id, status) => (dispatch, _getState, api) => {
+  setApiHeaderWithToken(api);
+  return api.post(`${APIRoute.FAVORITE}/${id}/${status}`)
+    .then(({data}) => dispatch(loadPromoFilm(data)));
 };
