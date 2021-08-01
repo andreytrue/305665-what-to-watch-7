@@ -21,7 +21,7 @@ function MainFilm() {
     evt.preventDefault();
 
     if (!userIsAuth(authorizationStatus)) {
-      return  history.push('/');
+      return history.push('/login');
     }
 
     dispatch(addPromoToFavorite(id, !isFavorite ? FavoriteFilm.TRUE : FavoriteFilm.FALSE));
