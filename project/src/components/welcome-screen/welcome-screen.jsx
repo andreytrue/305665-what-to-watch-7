@@ -18,7 +18,6 @@ function WelcomeScreen() {
   const genre = useSelector(getGenre);
   const dispatch = useDispatch();
 
-  // eslint-disable-next-line
   useEffect(() => {
     dispatch(fetchPromoFilm());
 

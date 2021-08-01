@@ -1,17 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import reviewsProp from '../review/reviews.prop';
-
-const dateOptions = {
-  month: 'long',
-  day: 'numeric',
-  year: 'numeric',
-};
+import { DateOptions } from '../../utils/const';
 
 function TabReviews({reviews}) {
   const convertDate = (data) => {
     const date = new Date(data);
-    return date.toLocaleString('en-US', dateOptions);
+    return date.toLocaleString('en-US', DateOptions);
   };
 
   return(

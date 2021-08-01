@@ -1,4 +1,4 @@
-export const selectedFilmAdapter = (data) => {
+export const useSelectedFilmAdapter = (data) => {
   const film = {
     id: data.id,
     name: data.name,
@@ -22,7 +22,7 @@ export const selectedFilmAdapter = (data) => {
   return film;
 };
 
-export const FilmsAdapter = (data) => {
+export const useFilmsAdapter = (data) => {
   const films = JSON.parse(JSON.stringify(data));
 
   const adaptedList = films.map((item) => ({

@@ -1,4 +1,4 @@
-import { AuthorizationStatus, RatingValues, ReviewLength } from './const';
+import { AuthorizationStatus } from './const';
 
 export const isCheckedAuth = (authorizationStatus) =>
   authorizationStatus === AuthorizationStatus.UNKNOWN;
@@ -21,11 +21,16 @@ export const filmRating = (rating) => {
 };
 
 export const isAvailableToSend = (rating, comment) => {
-  if (rating >= RatingValues.MIN && rating <= RatingValues.MAX) {
-    if (comment.length >= ReviewLength.MIN && comment.length <= ReviewLength.MAX) {
-      return false;
-    }
+  // if (rating > RatingValues.MIN && rating < RatingValues.MAX) {
+  //   if (comment.length > ReviewLength.MIN && comment.length < ReviewLength.MAX) {
+  //     return false;
+  //   }
+  // }
+
+  if(rating > 0 && comment.length > 0) {
+    return false;
   }
+
   return true;
 };
 

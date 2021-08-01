@@ -35,7 +35,7 @@ function App() {
           <WelcomeScreen />
         </Route>
         <Route exact path={AppRoute.LOGIN}>
-          <Login authorizationStatus={authorizationStatus}  />
+          <Login />
         </Route>
         <PrivateRoute
           exact
@@ -45,7 +45,7 @@ function App() {
         >
         </PrivateRoute>
         <Route exact path={AppRoute.FILM}>
-          <Film authorizationStatus={authorizationStatus} />
+          <Film />
         </Route>
         <PrivateRoute
           exact

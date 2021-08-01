@@ -7,6 +7,7 @@ import {
   requireAuthorization,
   redirectToRoute,
   submitLogin,
+  submitLogout,
   loadSelectedFilm,
   loadSimilarFilms,
   loadReviews,
@@ -76,13 +77,13 @@ describe('Actions', () => {
     expect(requireAuthorization(authorizationStatus)).toEqual(expectedAction);
   });
 
-  // it('action creator to logout user returns correct action', () => {
-  //   const expectedAction = {
-  //     type: ActionType.LOGOUT,
-  //   }
+  it('action creator to logout user returns correct action', () => {
+    const expectedAction = {
+      type: ActionType.LOGOUT,
+    };
 
-  //   expect(submitLogout().toEqual(expectedAction));
-  // })
+    expect(submitLogout()).toEqual(expectedAction);
+  });
 
   it('action creator to redirect to other page returns correct action', () => {
     const expectedAction = {

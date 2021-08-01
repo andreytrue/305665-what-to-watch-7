@@ -12,15 +12,9 @@ import {
   reviewIsLoading
 } from './action';
 
-const handleError = (err) => {
-  // eslint-disable-next-line
-  window.alert(err);
-};
-
 export const setApiHeaderWithToken = (api) => (
   api.defaults.headers['x-token'] = localStorage.getItem('token') ?? ''
 );
-
 
 export const fetchFilmsList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.FILMS)
@@ -30,7 +24,10 @@ export const fetchFilmsList = () => (dispatch, _getState, api) => (
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
-    .catch(() => {})
+    .catch((err) => {
+      // eslint-disable-next-line
+      console.log(err)
+    })
 );
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
@@ -38,7 +35,7 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
     .then(({data}) => localStorage.setItem('token', data.token))
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
     .then(() => dispatch(redirectToRoute(AppRoute.MAIN)))
-    .catch((err) => handleError(err))
+    .catch(() => {})
 );
 
 export const logout = () => (dispatch, _getState, api) => (

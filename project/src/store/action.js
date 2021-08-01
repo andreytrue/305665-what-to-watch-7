@@ -8,6 +8,7 @@ export const ActionType = {
   LOAD_FILMS: 'load/loadFilms',
   REQUIRED_AUTHORIZATION: 'user/requiredAuthorization',
   LOGIN: 'user/login',
+  LOGOUT: 'use/logout',
   REDIRECT_TO_ROUTE: 'app/redirectToRoute',
   LOAD_SELECTED_FILM: 'load/selectedFilm',
   LOAD_SIMILAR_FILMS: 'load/similarFilms',
