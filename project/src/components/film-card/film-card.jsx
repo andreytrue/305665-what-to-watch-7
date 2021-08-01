@@ -4,20 +4,19 @@ import {Link} from 'react-router-dom';
 import filmProp from '../films/films.prop';
 import VideoPlayer from '../videoplayer/video-player';
 
-function FilmCard({film, onMouseOver}) {
+function FilmCard({film}) {
   const [isPlaying, setIsPlaying] = useState(false);
 
   return (
     <article
       className="small-film-card catalog__films-card"
-      onMouseOver={() => onMouseOver(film.id)}
       onMouseEnter={() => setIsPlaying(true)}
       onMouseLeave={() => setIsPlaying(false)}
     >
       <div className="small-film-card__image">
-        {!isPlaying ?
-          <img src={film.previewImage} alt={film.title} width="280" height="175" /> :
-          <VideoPlayer film={film} key={film.id} src={film.previewVideoLink} isPlaying={isPlaying}/>}
+        {!isPlaying
+          ? <img src={film.previewImage} alt={film.title} width="280" height="175" />
+          : <VideoPlayer film={film} key={film.id} src={film.previewVideoLink} isPlaying={isPlaying}/>}
       </div>
       <h3 className="small-film-card__title">
         <Link className="small-film-card__link" to={`/films/${film.id}`}>{film.name}</Link>
@@ -28,7 +27,6 @@ function FilmCard({film, onMouseOver}) {
 
 FilmCard.propTypes = {
   film: PropTypes.shape(filmProp).isRequired,
-  onMouseOver: PropTypes.func,
 };
 
 export default React.memo(FilmCard);

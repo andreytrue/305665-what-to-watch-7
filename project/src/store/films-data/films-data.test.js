@@ -2,7 +2,7 @@ import { filmsData } from './films-data';
 import { ActionType } from '../action';
 
 import { films } from '../../mocks/films';
-import { selectedFilmAdapter, FilmsAdapter } from '../../utils/adapter';
+import { useSelectedFilmAdapter, useFilmsAdapter } from '../../utils/adapter';
 
 describe('Reducer: filmsData', () => {
   it('without additional parameters should return initial state', () => {
@@ -75,7 +75,7 @@ describe('Reducer: filmsData', () => {
     };
 
     expect(filmsData(state, loadFilms))
-      .toEqual({films: FilmsAdapter(films), isDataLoaded: true});
+      .toEqual({films: useFilmsAdapter(films), isDataLoaded: true});
   });
 
   it('should update selected film by load selected film', () => {
@@ -87,7 +87,7 @@ describe('Reducer: filmsData', () => {
     };
 
     expect(filmsData(state, loadSelectedFilm))
-      .toEqual({selectedFilm: selectedFilmAdapter(film), isSelectedFilmLoaded: true});
+      .toEqual({selectedFilm: useSelectedFilmAdapter(film), isSelectedFilmLoaded: true});
   });
 
   it('should update similar films by load similar films', () => {
@@ -98,7 +98,7 @@ describe('Reducer: filmsData', () => {
     };
 
     expect(filmsData(state, loadSimilarFilms))
-      .toEqual({similarFilms: FilmsAdapter(films)});
+      .toEqual({similarFilms: useFilmsAdapter(films)});
   });
 
   it('should update favorite films by load favorite films', () => {
@@ -109,6 +109,6 @@ describe('Reducer: filmsData', () => {
     };
 
     expect(filmsData(state, loadFavoriteFilms))
-      .toEqual({favoriteFilms: FilmsAdapter(films), isFavoriteFilmsLoaded: true});
+      .toEqual({favoriteFilms: useFilmsAdapter(films), isFavoriteFilmsLoaded: true});
   });
 });

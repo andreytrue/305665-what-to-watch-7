@@ -33,8 +33,8 @@ export const CARDS_SHOWING_AMOUNT = 8;
 export const GENRES_MAX_AMOUNT = 9;
 
 export const ReviewLength = {
-  MIN: '50',
-  MAX: '400',
+  MIN: 50,
+  MAX: 400,
 };
 
 export const RatingValues = {
@@ -44,5 +44,22 @@ export const RatingValues = {
 
 export const DurationTime = {
   HOUR: 3600,
-  MINUTES: 60,
+  MINUTE: 60,
+};
+
+export const FavoriteFilm = {
+  TRUE: 1,
+  FALSE: 0,
+};
+
+export const DateOptions = {
+  MONTH: 'long',
+  DAY: 'numeric',
+  YEAR: 'numeric',
+};
+
+export const TabValues = {
+  'Overview': 0,
+  'Details': 1,
+  'Reviews': 2,
 };

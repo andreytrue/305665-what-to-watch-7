@@ -1,5 +1,6 @@
 import React from 'react';
-import { userIsAuth } from '../../utils/common';
+import { useHistory } from 'react-router-dom';
+import { userIsAuth, checkIsFavorite } from '../../utils/common';
 import { Link } from 'react-router-dom';
 import GuestHeader from '../headers/guest-header';
 import UserHeader from '../headers/user-header';
@@ -10,15 +11,19 @@ import { addPromoToFavorite } from '../../store/api-actions';
 
 function MainFilm() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const authorizationStatus = useSelector(getAuthorizationStatus);
   const mainFilm = useSelector(getPromoFilm);
   const { id, name, backgroundImage, isFavorite, genre, released, posterImage } = mainFilm;
-  const posterImageAlt = name + ' poster'; // eslint-disable-line prefer-template
 
   const addToFavorite = (evt) => {
     evt.preventDefault();
 
-    dispatch(addPromoToFavorite(id, !isFavorite ? 1 : 0));
+    if (!userIsAuth(authorizationStatus)) {
+      return history.push('/login');
+    }
+
+    dispatch(addPromoToFavorite(id, checkIsFavorite(isFavorite)));
   };
 
   return (
@@ -36,7 +41,7 @@ function MainFilm() {
       <div className="film-card__wrap">
         <div className="film-card__info">
           <div className="film-card__poster">
-            <img src={posterImage} alt={posterImageAlt} width="218" height="327" />
+            <img src={posterImage} alt={`${name} poster`} width="218" height="327" />
           </div>
 
           <div className="film-card__desc">

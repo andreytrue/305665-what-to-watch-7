@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { ALL_GENRES, CARDS_SHOWING_AMOUNT } from '../../utils/const';
-import { FilmsAdapter, selectedFilmAdapter } from '../../utils/adapter';
+import { useFilmsAdapter, useSelectedFilmAdapter } from '../../utils/adapter';
 import {
   genreChange,
   resetGenre,
@@ -44,22 +44,22 @@ const filmsData = createReducer(initialState, (builder) => {
       state.filmsListAmount = CARDS_SHOWING_AMOUNT;
     })
     .addCase(loadFilms, (state, action) => {
-      state.films = FilmsAdapter(action.payload);
+      state.films = useFilmsAdapter(action.payload);
       state.isDataLoaded = true;
     })
     .addCase(loadSelectedFilm, (state, action) => {
-      state.selectedFilm = selectedFilmAdapter(action.payload);
+      state.selectedFilm = useSelectedFilmAdapter(action.payload);
       state.isSelectedFilmLoaded = true;
     })
     .addCase(loadSimilarFilms, (state, action) => {
-      state.similarFilms = FilmsAdapter(action.payload);
+      state.similarFilms = useFilmsAdapter(action.payload);
     })
     .addCase(loadFavoriteFilms, (state, action) => {
-      state.favoriteFilms = FilmsAdapter(action.payload);
+      state.favoriteFilms = useFilmsAdapter(action.payload);
       state.isFavoriteFilmsLoaded = true;
     })
     .addCase(loadPromoFilm, (state, action) => {
-      state.promoFilm = selectedFilmAdapter(action.payload);
+      state.promoFilm = useSelectedFilmAdapter(action.payload);
     });
 });
 

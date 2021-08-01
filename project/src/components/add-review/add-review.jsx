@@ -2,9 +2,11 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { reviewFilm } from '../../store/api-actions';
-import { makeArray, isAvailableToSend } from '../../utils/common';
+import { makeArray } from '../../utils/common';
 import { reviewIsLoading } from '../../store/action';
 import { getReviewSendingStatus } from '../../store/reviews-data/selectors';
+import { isAvailableToSend } from '../../utils/common';
+import { ReviewLength, RatingValues} from '../../utils/const';
 
 function AddReview() {
   const dispatch = useDispatch();
@@ -14,39 +16,46 @@ function AddReview() {
 
   const [reviewRate, setReviewRate] = React.useState(0);
   const [reviewComment, setReviewComment] = React.useState('');
-  const [formDisable, setFormDisable] = React.useState(true);
-  const [loadError, setLoadError] = React.useState(false);
+  const [rateError, setRateError] = React.useState(false);
+  const [reviewError, setReviewError] = React.useState(false);
 
   const handleRateOnClick = React.useCallback((evt) => {
+    setRateError(false);
     setReviewRate(evt.target.value);
-
-    setLoadError(false);
-    setFormDisable(isAvailableToSend(reviewRate, reviewComment));
-  }, [reviewRate, reviewComment]);
+  }, []);
 
   const handleCommentOnChange = React.useCallback((evt) => {
+    setReviewError(false);
     setReviewComment(evt.target.value);
+  }, []);
 
-    setLoadError(false);
-    setFormDisable(isAvailableToSend(reviewRate, reviewComment));
-  }, [reviewRate, reviewComment]);
-
-  const handleSubmit = async (evt) => {
+  const handleSubmit = (evt) => {
     evt.preventDefault();
-    dispatch(reviewIsLoading(true));
-    const filmReview = await dispatch(reviewFilm({
-      rating: Number(reviewRate),
-      comment: reviewComment,
-    }, id));
-    if (!filmReview) {
-      setLoadError(true);
+    const isCommentValidityLength = (reviewComment.length >= ReviewLength.MIN && reviewComment.length <= ReviewLength.MAX);
+    const isRateValidity = (reviewRate >= RatingValues.MIN && reviewRate <= RatingValues.MAX);
+
+    if (isRateValidity && isCommentValidityLength) {
+      dispatch(reviewIsLoading(true));
+      dispatch(reviewFilm({
+        rating: Number(reviewRate),
+        comment: reviewComment,
+      }, id));
+    } else {
+      if (isRateValidity && !isCommentValidityLength) {
+        setReviewError(true);
+      } else {
+        setRateError(true);
+      }
     }
   };
 
   return (
     <div className="add-review">
-      {loadError
-        ? <p style={{color: 'red'}}>Ошибка отправки формы. Внесите изменения в отзыв</p>
+      {rateError
+        ? <p style={{color: 'red'}}>Укажите рейтинг фильма по вашему мнению</p>
+        : ''}
+      {reviewError
+        ? <p style={{color: 'red'}}>Длина отзыва должна быть не менее 50 и не более 400 символов</p>
         : ''}
 
       <form action="#" className="add-review__htmlForm">
@@ -80,7 +89,7 @@ function AddReview() {
           >
           </textarea>
           <div className="add-review__submit">
-            <button className="add-review__btn" type="submit" onClick={ handleSubmit } disabled={formDisable || isLoading}>Post</button>
+            <button className="add-review__btn" type="submit" onClick={ handleSubmit } disabled={isLoading || isAvailableToSend(reviewRate, reviewComment)}>Post</button>
           </div>
 
         </div>

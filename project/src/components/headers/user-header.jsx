@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import Logo from '../logo/logo';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../utils/const';
-import { submitLogout } from '../../store/action';
+import { logout } from '../../store/api-actions';
 
 function UserHeader() {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ function UserHeader() {
           <Link
             className="user-block__link"
             to={AppRoute.MAIN}
-            onClick={ () => dispatch(submitLogout()) }
+            onClick={ () => dispatch(logout()) }
           >
             Sign out
           </Link>

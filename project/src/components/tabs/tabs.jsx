@@ -5,17 +5,12 @@ import reviewsProp from '../review/reviews.prop';
 import TabOverview from './tab-overview';
 import TabDetails from './tab-details';
 import TabReviews from './tab-reviews';
+import { TabValues } from '../../utils/const';
 
 function Tabs({film, reviews}) {
   const [isActiveTab, setActiveTab] = React.useState(0);
 
   const tabsArray = Array(3).fill();
-
-  const TABS = {
-    0: 'Overview',
-    1: 'Details',
-    2: 'Reviews',
-  };
 
   const onClickHandler = (evt) => {
     setActiveTab(Number(evt.currentTarget.dataset.id));
@@ -23,11 +18,11 @@ function Tabs({film, reviews}) {
 
   const activeTabHandler = () => {
     switch (isActiveTab) {
-      case 0:
+      case TabValues.Overview:
         return <TabOverview film={film} />;
-      case 1:
+      case TabValues.Details:
         return <TabDetails film={film} />;
-      case 2:
+      case TabValues.Reviews:
         return <TabReviews film={film} reviews={reviews} />;
       default:
         return 'Error';
@@ -39,8 +34,8 @@ function Tabs({film, reviews}) {
       <nav className="film-nav film-card__nav">
         <ul className="film-nav__list">
           {tabsArray.map((activeTabClassName = 'film-nav__item--active', index) => (
-            <li className={`film-nav__item ${isActiveTab === index ? activeTabClassName : ''}`} onClick={onClickHandler} data-id={index} key={TABS[index]}>
-              <span className="film-nav__link">{TABS[index]}</span>
+            <li className={`film-nav__item ${isActiveTab === index ? activeTabClassName : ''}`} onClick={onClickHandler} data-id={index} key={Object.values(TabValues)[index]}>
+              <span className="film-nav__link">{Object.keys(TabValues)[index]}</span>
             </li>
           ),
           )}

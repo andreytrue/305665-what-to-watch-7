@@ -4,12 +4,12 @@ import Footer from '../footer/footer';
 import Tabs from '../tabs/tabs';
 import FilmsList from '../films-list/films-list';
 import {FILMS_RECOMMENDATION_MAX} from '../../utils/const';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import GuestHeader from '../headers/guest-header';
 import UserHeader from '../headers/user-header';
-import { userIsAuth } from '../../utils/common';
+import { userIsAuth, checkIsFavorite } from '../../utils/common';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { fetchReviews, fetchSelectedFilm, fetchSimilarFilms, addFilmToFavorite } from '../../store/api-actions';
 import { getSelectedFilm, getSimilarFilms, getSelectedFilmStatus } from '../../store/films-data/selectors';
@@ -20,6 +20,7 @@ function Film() {
   const {id} = useParams();
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const authorizationStatus = useSelector(getAuthorizationStatus);
   const selectedFilm = useSelector(getSelectedFilm);
@@ -51,7 +52,11 @@ function Film() {
   const addToFavorite = (evt) => {
     evt.preventDefault();
 
-    dispatch(addFilmToFavorite(id, !isFavorite ? 1 : 0));
+    if (!userIsAuth(authorizationStatus)) {
+      return history.push('/login');
+    }
+
+    dispatch(addFilmToFavorite(id, checkIsFavorite(isFavorite)));
   };
 
   const recommendedFilms = similarFilms.slice(0, FILMS_RECOMMENDATION_MAX);
@@ -130,4 +135,4 @@ function Film() {
   );
 }
 
-export default React.memo(Film);
+export default Film;

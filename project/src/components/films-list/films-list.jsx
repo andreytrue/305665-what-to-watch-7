@@ -4,14 +4,6 @@ import FilmCard from '../film-card/film-card';
 import filmProp from '../films/films.prop';
 
 function FilmsList ({ films, filmsListAmount = films.length}){
-  // eslint-disable-next-line
-  const [activeFilm, setActiveFilm] = React.useState(-1);
-
-
-  const handleOnMouseOver = React.useCallback((id) => {
-    setActiveFilm(id);
-  }, []);
-
   const filmsList = (list) => list.slice(0, filmsListAmount);
 
   return (
@@ -20,7 +12,6 @@ function FilmsList ({ films, filmsListAmount = films.length}){
         <FilmCard
           film={film}
           key={film.id}
-          onMouseOver={handleOnMouseOver}
         />))}
     </div>
   );

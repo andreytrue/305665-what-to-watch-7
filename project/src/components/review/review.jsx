@@ -1,19 +1,20 @@
 import React from 'react';
 import Logo from '../logo/logo';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import filmProp from '../films/films.prop';
+import { Link, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import AddReview from '../add-review/add-review';
+import { getFilms } from '../../store/films-data/selectors';
 
-function Review({selectedFilm}) {
-  const reviewedFilm = selectedFilm;
-  const posterImageAlt = reviewedFilm.name + ' poster'; // eslint-disable-line prefer-template
+function Review() {
+  const {id} = useParams();
+  const films = useSelector(getFilms);
+  const reviewedFilm = films.find((item) => item.id === Number(id));
 
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={reviewedFilm.backgroundImage} alt={reviewedFilm.name} />
+          <img src={reviewedFilm.backgroundImage} alt={`${reviewedFilm.name} poster`} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -45,7 +46,7 @@ function Review({selectedFilm}) {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={reviewedFilm.posterImage} alt={posterImageAlt} width="218" height="327" />
+          <img src={reviewedFilm.posterImage} alt={`${reviewedFilm.name} poster`} width="218" height="327" />
         </div>
       </div>
 
@@ -54,9 +55,5 @@ function Review({selectedFilm}) {
     </section>
   );
 }
-
-Review.propTypes = {
-  selectedFilm: PropTypes.shape(filmProp),
-};
 
 export default Review;
