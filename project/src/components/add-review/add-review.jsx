@@ -31,8 +31,8 @@ function AddReview() {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    const isCommentValidityLength = (reviewComment.length > ReviewLength.MIN && reviewComment.length < ReviewLength.MAX);
-    const isRateValidity = (reviewRate > RatingValues.MIN && reviewRate < RatingValues.MAX);
+    const isCommentValidityLength = (reviewComment.length >= ReviewLength.MIN && reviewComment.length <= ReviewLength.MAX);
+    const isRateValidity = (reviewRate >= RatingValues.MIN && reviewRate <= RatingValues.MAX);
 
     if (isRateValidity && isCommentValidityLength) {
       dispatch(reviewIsLoading(true));
