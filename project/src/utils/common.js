@@ -1,4 +1,4 @@
-import { AuthorizationStatus } from './const';
+import { AuthorizationStatus, FavoriteFilm } from './const';
 
 export const isCheckedAuth = (authorizationStatus) =>
   authorizationStatus === AuthorizationStatus.UNKNOWN;
@@ -21,13 +21,7 @@ export const filmRating = (rating) => {
 };
 
 export const isAvailableToSend = (rating, comment) => {
-  // if (rating > RatingValues.MIN && rating < RatingValues.MAX) {
-  //   if (comment.length > ReviewLength.MIN && comment.length < ReviewLength.MAX) {
-  //     return false;
-  //   }
-  // }
-
-  if(rating > 0 && comment.length > 0) {
+  if (rating > 0 && comment.length > 0) {
     return false;
   }
 
@@ -75,8 +69,7 @@ export const onVideoDuration = (duration) => {
   const minutes = Math.floor(duration / 60, 10);
   const seconds = Math.floor(duration % 60);
 
-  // eslint-disable-next-line
-  console.log('result', minutes, seconds);
-
   return (`${minutes}:${seconds}`);
 };
+
+export const checkIsFavorite = (isFavorite) => !isFavorite ? FavoriteFilm.TRUE : FavoriteFilm.FALSE;

@@ -9,13 +9,12 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import GuestHeader from '../headers/guest-header';
 import UserHeader from '../headers/user-header';
-import { userIsAuth } from '../../utils/common';
+import { userIsAuth, checkIsFavorite } from '../../utils/common';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { fetchReviews, fetchSelectedFilm, fetchSimilarFilms, addFilmToFavorite } from '../../store/api-actions';
 import { getSelectedFilm, getSimilarFilms, getSelectedFilmStatus } from '../../store/films-data/selectors';
 import { getReviews, getReviewsStatus } from '../../store/reviews-data/selectors';
 import { getAuthorizationStatus } from '../../store/user/selectors';
-import { FavoriteFilm } from '../../utils/const';
 
 function Film() {
   const {id} = useParams();
@@ -57,7 +56,7 @@ function Film() {
       return history.push('/login');
     }
 
-    dispatch(addFilmToFavorite(id, !isFavorite ? FavoriteFilm.TRUE : FavoriteFilm.FALSE));
+    dispatch(addFilmToFavorite(id, checkIsFavorite(isFavorite)));
   };
 
   const recommendedFilms = similarFilms.slice(0, FILMS_RECOMMENDATION_MAX);

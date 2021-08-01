@@ -20,7 +20,7 @@ function Login() {
   const dispatch = useDispatch();
 
   if (userIsAuth(authorizationStatus)) {
-    <Redirect to={AppRoute.MAIN} />;
+    return <Redirect to={AppRoute.MAIN} />;
   }
 
   const onSubmit = (authorizationData) => dispatch(login(authorizationData));
@@ -75,6 +75,7 @@ function Login() {
                 name="user-email"
                 id="user-email"
                 data-testid="login"
+                required
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
             </div>
@@ -87,6 +88,7 @@ function Login() {
                 name="user-password"
                 id="user-password"
                 data-testid="password"
+                required
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
             </div>

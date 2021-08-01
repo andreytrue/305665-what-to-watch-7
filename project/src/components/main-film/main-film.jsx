@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { userIsAuth } from '../../utils/common';
+import { userIsAuth, checkIsFavorite } from '../../utils/common';
 import { Link } from 'react-router-dom';
 import GuestHeader from '../headers/guest-header';
 import UserHeader from '../headers/user-header';
@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPromoFilm } from '../../store/films-data/selectors';
 import { getAuthorizationStatus } from '../../store/user/selectors';
 import { addPromoToFavorite } from '../../store/api-actions';
-import { FavoriteFilm } from '../../utils/const';
 
 function MainFilm() {
   const dispatch = useDispatch();
@@ -24,7 +23,7 @@ function MainFilm() {
       return history.push('/login');
     }
 
-    dispatch(addPromoToFavorite(id, !isFavorite ? FavoriteFilm.TRUE : FavoriteFilm.FALSE));
+    dispatch(addPromoToFavorite(id, checkIsFavorite(isFavorite)));
   };
 
   return (
