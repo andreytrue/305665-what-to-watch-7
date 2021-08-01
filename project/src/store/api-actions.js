@@ -77,7 +77,8 @@ export const fetchFavoriteFilms = () => (dispatch, _getState, api) => {
 export const addFilmToFavorite = (id, status) => (dispatch, _getState, api) => {
   setApiHeaderWithToken(api);
   return api.post(`${APIRoute.FAVORITE}/${id}/${status}`)
-    .then(() => dispatch(fetchSelectedFilm(id)));
+    .then(() => dispatch(fetchSelectedFilm(id)))
+    .catch(() => {});
 };
 
 export const fetchPromoFilm = () => (dispatch, _getState, api) => {

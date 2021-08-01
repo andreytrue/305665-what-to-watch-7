@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPromoFilm } from '../../store/films-data/selectors';
 import { getAuthorizationStatus } from '../../store/user/selectors';
 import { addPromoToFavorite } from '../../store/api-actions';
+import { FavoriteFilm } from '../../utils/const';
 
 function MainFilm() {
   const dispatch = useDispatch();
@@ -20,10 +21,10 @@ function MainFilm() {
     evt.preventDefault();
 
     if (!userIsAuth(authorizationStatus)) {
-      history.push('/');
+      return  history.push('/');
     }
 
-    dispatch(addPromoToFavorite(id, !isFavorite ? 1 : 0));
+    dispatch(addPromoToFavorite(id, !isFavorite ? FavoriteFilm.TRUE : FavoriteFilm.FALSE));
   };
 
   return (

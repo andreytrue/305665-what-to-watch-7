@@ -54,7 +54,7 @@ function Film() {
     evt.preventDefault();
 
     if (!userIsAuth(authorizationStatus)) {
-      history.push('/login');
+      return history.push('/login');
     }
 
     dispatch(addFilmToFavorite(id, !isFavorite ? FavoriteFilm.TRUE : FavoriteFilm.FALSE));
