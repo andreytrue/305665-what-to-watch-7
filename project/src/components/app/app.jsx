@@ -35,7 +35,9 @@ function App() {
           <WelcomeScreen />
         </Route>
         <Route exact path={AppRoute.LOGIN}>
-          <Login />
+          <Login
+            authorizationStatus={authorizationStatus}
+          />
         </Route>
         <PrivateRoute
           exact
