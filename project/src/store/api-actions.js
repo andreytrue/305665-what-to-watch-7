@@ -24,10 +24,6 @@ export const fetchFilmsList = () => (dispatch, _getState, api) => (
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
-    .catch((err) => {
-      // eslint-disable-next-line
-      console.log(err)
-    })
 );
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
