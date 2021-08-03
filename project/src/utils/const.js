@@ -59,7 +59,7 @@ export const DateOptions = {
 };
 
 export const TabValues = {
-  'Overview': 0,
-  'Details': 1,
-  'Reviews': 2,
+  OVERVIEW: 0,
+  DETAILS: 1,
+  REVIEWS: 2,
 };

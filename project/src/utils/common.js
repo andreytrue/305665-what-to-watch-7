@@ -73,3 +73,9 @@ export const onVideoDuration = (duration) => {
 };
 
 export const checkIsFavorite = (isFavorite) => !isFavorite ? FavoriteFilm.TRUE : FavoriteFilm.FALSE;
+
+export const adaptTabName = (tabKey) => {
+  const result = String(tabKey).toLowerCase();
+
+  return result[0].toUpperCase() + result.slice(1);
+};

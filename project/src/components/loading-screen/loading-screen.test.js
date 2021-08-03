@@ -5,7 +5,7 @@ import LoadingScreen from './loading-screen';
 describe('Component: LoadingScreen', () => {
   it('should render correctly', () => {
     const { getByText } = render(
-      <LoadingScreen />
+      <LoadingScreen />,
     );
 
     const loadingStatus = getByText('Loading...');
