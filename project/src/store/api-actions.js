@@ -38,7 +38,11 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
 export const logout = () => (dispatch, _getState, api) => (
   api.delete(APIRoute.LOGOUT)
     .then(() => localStorage.removeItem('token'))
-    .then(() => dispatch(submitLogout()))
+    .then(() => {
+      api.get(APIRoute.PROMO)
+        .then(({data}) => dispatch(loadPromoFilm(data)))
+        .then(() => dispatch(submitLogout()));
+    })
 );
 
 export const fetchSelectedFilm = (id) => (dispatch, _getState, api) => (

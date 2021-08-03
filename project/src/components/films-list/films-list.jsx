@@ -23,7 +23,7 @@ FilmsList.propTypes = {
 };
 
 FilmsList.defaultProps = {
-
+  filmsListAmount: 8,
 };
 
 export default FilmsList;

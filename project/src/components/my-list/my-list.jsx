@@ -8,7 +8,7 @@ import { fetchFavoriteFilms } from '../../store/api-actions';
 
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../utils/const';
-import { submitLogout } from '../../store/action';
+import { logout } from '../../store/api-actions';
 
 function MyList() {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ function MyList() {
             <Link
               className="user-block__link"
               to={AppRoute.MAIN}
-              onClick={ () => dispatch(submitLogout()) }
+              onClick={ () => dispatch(logout()) }
             >
               Sign out
             </Link>
