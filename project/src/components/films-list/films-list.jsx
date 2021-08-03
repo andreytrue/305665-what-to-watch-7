@@ -22,4 +22,8 @@ FilmsList.propTypes = {
   filmsListAmount: PropTypes.number,
 };
 
+FilmsList.defaultProps = {
+
+};
+
 export default FilmsList;

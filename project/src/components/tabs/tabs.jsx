@@ -6,6 +6,7 @@ import TabOverview from './tab-overview';
 import TabDetails from './tab-details';
 import TabReviews from './tab-reviews';
 import { TabValues } from '../../utils/const';
+import { adaptTabName } from '../../utils/common';
 
 function Tabs({film, reviews}) {
   const [isActiveTab, setActiveTab] = React.useState(0);
@@ -18,15 +19,21 @@ function Tabs({film, reviews}) {
 
   const activeTabHandler = () => {
     switch (isActiveTab) {
-      case TabValues.Overview:
+      case TabValues.OVERVIEW:
         return <TabOverview film={film} />;
-      case TabValues.Details:
+      case TabValues.DETAILS:
         return <TabDetails film={film} />;
-      case TabValues.Reviews:
+      case TabValues.REVIEWS:
         return <TabReviews film={film} reviews={reviews} />;
       default:
         return 'Error';
     }
+  };
+
+  const onTabName = (index) => {
+    const result = Object.keys(TabValues)[index];
+
+    return adaptTabName(result);
   };
 
   return (
@@ -35,7 +42,7 @@ function Tabs({film, reviews}) {
         <ul className="film-nav__list">
           {tabsArray.map((activeTabClassName = 'film-nav__item--active', index) => (
             <li className={`film-nav__item ${isActiveTab === index ? activeTabClassName : ''}`} onClick={onClickHandler} data-id={index} key={Object.values(TabValues)[index]}>
-              <span className="film-nav__link">{Object.keys(TabValues)[index]}</span>
+              <span className="film-nav__link">{onTabName(index)}</span>
             </li>
           ),
           )}
